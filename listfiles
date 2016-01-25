@@ -1,0 +1,6 @@
+#!/bin/sh
+
+echo -n "File count: "
+servald rhizome list | grep ":file": | wc -l
+
+servald rhizome list | grep ":file": | cut -d":" -f 13
