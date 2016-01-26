@@ -1,0 +1,3 @@
+#!/bin/sh
+
+less /tmp/pycore.*/$1.conf/home.meshadmin.serval-conf.var.log.serval/serval-*.log
