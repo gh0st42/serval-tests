@@ -1,3 +1,11 @@
 #!/bin/sh
 
-less /tmp/pycore.*/$1.conf/home.meshadmin.serval-conf.var.log.serval/serval-*.log
+if [ -z "$1" ] ; then
+	echo "Usage: $0 <node_number> [-n]"
+	echo " -n : don't open in less, just print absolute path"
+	exit
+elif [ -z "$2" ] ; then
+	less /tmp/pycore.*/$1.conf/home.meshadmin.serval-conf.var.log.serval/serval-*.log
+else 
+	ls /tmp/pycore.*/$1.conf/home.meshadmin.serval-conf.var.log.serval/serval-*.log
+fi
