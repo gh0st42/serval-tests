@@ -5,7 +5,7 @@ if [ -z "$1" ] ; then
 	echo " -n : don't open in less, just print absolute path"
 	exit
 elif [ -z "$2" ] ; then
-	less /tmp/pycore.*/$1.conf/home.meshadmin.serval-conf.var.log.serval/serval-*.log
-else 
-	ls /tmp/pycore.*/$1.conf/home.meshadmin.serval-conf.var.log.serval/serval-*.log
+	less /tmp/pycore.*/$1.conf/*.var.log.serval/serval-*.log
+else
+	ls /tmp/pycore.*/$1.conf/*.var.log.serval/serval-*.log
 fi
