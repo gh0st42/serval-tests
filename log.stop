@@ -1,0 +1,5 @@
+#!/bin/bash
+
+kill `cat servald-log.pid`
+kill `cat rhizome-log.pid`
+kill `cat meshms-log.pid`

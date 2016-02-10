@@ -1,10 +1,27 @@
 #!/bin/bash
 # this script defines basic variables for other tools
 
+LOG_PATH="/tmp/serval-logs"
+
 TESTFILE_PATH="/tmp/serval-testfiles"
 mkdir -p $TESTFILE_PATH
 
 TESTFILES="$TESTFILE_PATH/*"
 
+
+RHIZOME_STORE_PATH=`servald config paths | tail -n-1 | cut -d":" -f2`
 SID=`servald id self | sed -n 3p`
 ALLPEERS=`servald id allpeers | tail -n-2`
+
+function sleep_until_next_ms {
+    MS=$1
+    NOW=$(date_ms)
+    SLEEP_MS=$((MS - (NOW % MS)))
+    SLEEP_S=$(bc <<< "scale=3; $SLEEP_MS/1000")
+    echo "Sleeping ${SLEEP_S}s"
+    sleep $SLEEP_S
+}
+
+function date_ms {
+    gdate +%s%N | cut -b1-13
+}

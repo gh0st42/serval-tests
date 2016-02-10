@@ -1,0 +1,13 @@
+#!/bin/bash
+source serval-base
+
+mkdir -p $LOG_PATH
+OUTFILE="$LOG_PATH/meshms-$(date +%s).csv"
+echo "timestamp_ms,conversations_count" | tee -a $OUTFILE
+
+while [ true ]; do
+    sleep_until_next_ms 200
+    NOW=$(date_ms)
+    COUNT=$(( $(servald meshms list conversations $SID | wc -l) -2 ))
+    echo "$NOW,$COUNT" | tee -a $OUTFILE
+done

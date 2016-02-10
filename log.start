@@ -1,0 +1,8 @@
+#!/bin/bash
+
+./servald-log &
+echo $! > servald-log.pid
+./rhizome-log &
+echo $! > rhizome-log.pid
+./meshms-log &
+echo $! > meshms-log.pid

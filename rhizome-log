@@ -1,0 +1,27 @@
+#!/bin/bash
+source serval-base
+
+mkdir -p $LOG_PATH
+OUTFILE="$LOG_PATH/rhizome-$(date +%s).csv"
+echo "timestamp_ms,file_count,blobdir_size_k,db_size_k,files_size" | tee -a $OUTFILE
+
+while [ true ]; do
+    sleep_until_next_ms 200
+    NOW=$(date_ms)
+    COUNT=$(($(servald rhizome list | wc -l) -1 ))
+    BLOBSIZE=$(du -k $RHIZOME_STORE_PATH/blob | cut -f1)
+    DBSIZE=$(du -k $RHIZOME_STORE_PATH/rhizome.db | cut -f1)
+    
+    # Sums all file sizes in rhizome store; slow and not used.
+    # IFS=$'\n'
+    # LIST=$(servald rhizome list | grep ":file:")
+    # SIZE=0
+    # COUNT=0
+    # for file in $LIST; do
+    #     FILESIZE=$(())
+    #     SIZE=$((SIZE + $(echo $file | cut -d":" -f9) ))
+    #     COUNT=$((COUNT + 1))
+    # done
+    
+    echo "$NOW,$COUNT,$BLOBSIZE,$DBSIZE,$SIZE" | tee -a $OUTFILE
+done
