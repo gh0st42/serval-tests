@@ -1,0 +1,10 @@
+#!/bin/bash
+# this script defines basic variables for other tools
+
+TESTFILE_PATH="/tmp/serval-testfiles"
+mkdir -p $TESTFILE_PATH
+
+TESTFILES="$TESTFILE_PATH/*"
+
+SID=`servald id self | sed -n 3p`
+ALLPEERS=`servald id allpeers | tail -n-2`

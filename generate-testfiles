@@ -1,4 +1,6 @@
 #!/bin/sh
+source serval-base
+
 name=$(basename $0)
 re='^[0-9]+$'
 
@@ -7,14 +9,13 @@ if [ "$#" -ne 1 ] || ! [[ $1 =~ $re ]]; then
     exit -1;
 fi
 
-mkdir -p testfiles
 rm -f $name.log
 
 for (( cnt=1 ; cnt <= $1 ; cnt++ )); do
     echo "generating files: $cnt / $1..." | tee -a $name.log
-    dd if=/dev/random of=testfiles/1m-$cnt.file bs=1m count=1 2>> $name.log
-    dd if=/dev/random of=testfiles/5m-$cnt.file bs=1m count=5 2>> $name.log
-    dd if=/dev/random of=testfiles/10m-$cnt.file bs=1m count=10 2>> $name.log
+    dd if=/dev/random of=$TESTFILE_PATH/1m-$cnt.file bs=1m count=1 2>> $name.log
+    dd if=/dev/random of=$TESTFILE_PATH/5m-$cnt.file bs=1m count=5 2>> $name.log
+    dd if=/dev/random of=$TESTFILE_PATH/10m-$cnt.file bs=1m count=10 2>> $name.log
 done
-
+    
 echo "Done!" | tee -a $name.log

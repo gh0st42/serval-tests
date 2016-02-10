@@ -1,9 +1,0 @@
-#!/bin/sh
-
-FILEPATH=/home/meshadmin/serval-tests/files
-
-SID=`servald id self | sed -n 3p`
-for i in $FILEPATH/*.file 
-do 
-servald rhizome add file $SID $i
-done

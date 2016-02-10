@@ -1,0 +1,6 @@
+#!/bin/sh
+source serval-base
+
+for i in $TESTFILES; do 
+    servald rhizome add file $SID $i
+done

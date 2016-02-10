@@ -1,0 +1,7 @@
+#!/bin/bash
+source serval-base
+
+for their_sid in $ALLPEERS; do
+    echo "Sending MeshMS to $their_sid"
+    servald meshms send message $SID $their_sid "hello"
+done
