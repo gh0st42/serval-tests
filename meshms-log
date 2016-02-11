@@ -3,11 +3,13 @@ source serval-base
 
 mkdir -p $LOG_PATH
 OUTFILE="$LOG_PATH/meshms-$(date +%s).csv"
-echo "timestamp_ms,conversations_count" | tee -a $OUTFILE
+echo "timestamp_ms,my_conv_count,total_conv_count,meshms_bytes" | tee -a $OUTFILE
 
 while [ true ]; do
     sleep_until_next_ms 200
     NOW=$(date_ms)
-    COUNT=$(( $(servald meshms list conversations $SID | wc -l) -2 ))
-    echo "$NOW,$COUNT" | tee -a $OUTFILE
+    MY_COUNT=$(( $(servald meshms list conversations $SID | wc -l) -2 ))
+    TOTAL_COUNT=$(sqlite3 rhizome.db <<< 'select count(MANIFESTS.filesize) from MANIFESTS where MANIFESTS.service = "MeshMS2";')
+    MESHMS_BYTES=$(sqlite3 rhizome.db <<< 'select sum(MANIFESTS.filesize) from MANIFESTS where MANIFESTS.service = "MeshMS2";')
+    echo "$NOW,$MY_COUNT,$TOTAL_COUNT,$MESHMS_BYTES" | tee -a $OUTFILE
 done
