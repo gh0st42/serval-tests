@@ -1,0 +1,8 @@
+#! /bin/bash
+
+rm /tmp/serval-ids
+
+for f in `find /tmp/  2>/dev/null | grep pycore.*/n[0-9]*$`
+do
+	vcmd -c $f -- servald id self | egrep [A-F0-9]+{64} >> /tmp/serval-ids
+done
