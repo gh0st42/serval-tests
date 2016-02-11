@@ -1,12 +1,25 @@
 #!/bin/sh
-# this script defines basic variables for other tools
+# basic variables
 
-LOG_PATH="/tmp/serval-logs"
+MONITOR_PATH="/tmp/serval-monitor"
 
 TESTFILE_PATH="/tmp/serval-testfiles"
-
 TESTFILES="$TESTFILE_PATH/*"
 
 SLEEP_TIME=1
 
 SEVERAL_ALL_SIDS_FILE="/tmp/serval-all-ids"
+
+if [ "$1" = "-h" ]; then
+    echo "usage: $0 [ -h | --dump ]"
+    echo "defines basic variables used in serval-tests"
+    exit 0
+fi
+
+if [ "$1" = "--dump" ]; then
+    echo MONITOR_PATH=$MONITOR_PATH
+    echo TESTFILE_PATH=$TESTFILE_PATH
+    echo TESTFILES=$TESTFILES
+    echo SLEEP_TIME=$SLEEP_TIME
+    echo SEVERAL_ALL_SIDS_FILE=$SEVERAL_ALL_SIDS_FILE
+fi

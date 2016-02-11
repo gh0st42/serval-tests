@@ -1,0 +1,21 @@
+#!/bin/sh
+if [ -z $SCRIPT_PATH ]; then SCRIPT_PATH=$(dirname $0); fi
+. $SCRIPT_PATH/serval-vars
+. $SCRIPT_PATH/serval-base
+
+if [ "$1" = "-h" ]; then
+    echo "writes a csv dump for selected servald properties to $MONITOR_PATH"
+    exit 0
+fi
+
+OUTFILE="$MONITOR_PATH/servald-$(date +%Y-%m-%d_%H-%M)-$(hostname).csv"
+mkdir -p $MONITOR_PATH
+echo "timestamp_ms,peer_count" > $OUTFILE
+
+while [ true ]; do
+    sleep $SLEEP_TIME
+    NOW=$(date_ms)
+    COUNT=$(servald peer count)
+    
+    echo "$NOW,$COUNT" >> $OUTFILE
+done

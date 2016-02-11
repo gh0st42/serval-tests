@@ -1,0 +1,23 @@
+#!/bin/sh
+if [ -z $SCRIPT_PATH ]; then SCRIPT_PATH=$(dirname $0); fi
+. $SCRIPT_PATH/serval-base
+
+if [ "$1" = "-h" ]; then
+    echo "writes a csv dump for selected rhizome properties to $MONITOR_PATH"
+    exit 0
+fi
+
+OUTFILE="$MONITOR_PATH/rhizome-$(date +%Y-%m-%d_%H-%M)-$(hostname).csv"
+mkdir -p $MONITOR_PATH
+echo "timestamp_ms,file_count,blobdir_size_k,db_size_k,files_size" > $OUTFILE
+
+while [ true ]; do
+    sleep $SLEEP_TIME
+    NOW=$(date_ms)
+    COUNT=$(($(servald rhizome list | wc -l) -1 ))
+    BLOBSIZE=$(du -k $RHIZOME_STORE_PATH/blob | cut -f1)
+    DBSIZE=$(du -k $RHIZOME_STORE_PATH/rhizome.db | cut -f1)
+    FILES_SIZE=$(sqlite3 $RHIZOME_STORE_PATH/rhizome.db <<< 'select total(MANIFESTS.filesize) from MANIFESTS where MANIFESTS.service = "file";')
+
+    echo "$NOW,$COUNT,$BLOBSIZE,$DBSIZE,$FILES_SIZE" >> $OUTFILE
+done

@@ -1,16 +1,24 @@
 #!/bin/sh
+if [ -z $SCRIPT_PATH ]; then SCRIPT_PATH=$(dirname $0); fi
 . $SCRIPT_PATH/serval-vars
 . $SCRIPT_PATH/serval-base
 
-mkdir -p $LOG_PATH
-OUTFILE="$LOG_PATH/meshms-$(date +%s)-$(hostname).csv"
-echo "timestamp_ms,my_conv_count,total_conv_count,meshms_bytes" | tee -a $OUTFILE
+if [ "$1" = "-h" ]; then
+    echo "writes a csv dump for selected meshms properties to $MONITOR_PATH"
+    exit 0
+fi
+
+OUTFILE="$MONITOR_PATH/meshms-$(date +%Y-%m-%d_%H-%M)-$(hostname).csv"
+mkdir -p $MONITOR_PATH
+echo "timestamp_ms,my_conv_count,total_conv_count,meshms_bytes" > $OUTFILE
 
 while [ true ]; do
     sleep $SLEEP_TIME
+    
     NOW=$(date_ms)
     MY_COUNT=$(( $(servald meshms list conversations $SID | wc -l) -2 ))
     TOTAL_COUNT=$(sqlite3 $RHIZOME_STORE_PATH/rhizome.db <<< 'select count(MANIFESTS.filesize) from MANIFESTS where MANIFESTS.service = "MeshMS2";')
     MESHMS_BYTES=$(sqlite3 $RHIZOME_STORE_PATH/rhizome.db <<< 'select total(MANIFESTS.filesize) from MANIFESTS where MANIFESTS.service = "MeshMS2";')
-    echo "$NOW,$MY_COUNT,$TOTAL_COUNT,$MESHMS_BYTES" | tee -a $OUTFILE
+    
+    echo "$NOW,$MY_COUNT,$TOTAL_COUNT,$MESHMS_BYTES" >> $OUTFILE
 done

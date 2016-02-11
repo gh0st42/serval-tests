@@ -1,10 +1,15 @@
 #!/bin/sh
+if [ -z $SCRIPT_PATH ]; then SCRIPT_PATH=$(dirname $0); fi
 . $SCRIPT_PATH/serval-vars
 . $SCRIPT_PATH/serval-base
 
-if [-z $1] ; then
-  TESTFILES=$1/*
+if [ "$1" = "-h" ]; then
+    echo "usage: $0 [testfiles_path]"
+    echo "inserts all files at [testfiles_path] or $TESTFILE_PATH"
+    exit 0
 fi
+
+if [-z $1] ; then TESTFILES="$1/*"; fi
 
 for i in $TESTFILES; do
     servald rhizome add file $SID $i
