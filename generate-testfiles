@@ -1,21 +1,30 @@
 #!/bin/sh
-source $SCRIPT_PATH/serval-base
 
 name=$(basename $0)
 re='^[0-9]+$'
 
-if [ "$#" -ne 1 ] || ! [[ $1 =~ $re ]]; then 
-    echo "usage: $name [number of files]"
-    exit -1;
+if [ -z $1 ]; then
+    echo "usage: $name <number of files> [output_path]"
+    exit 1;
 fi
+
+if [ -z $2 ]; then
+  TESTFILE_PATH=files
+else
+  TESTFILE_PATH=$2
+fi
+
+mkdir $TESTFILE_PATH
 
 rm -f $name.log
 
-for (( cnt=1 ; cnt <= $1 ; cnt++ )); do
+for cnt in `seq 1 $1`; do
     echo "generating files: $cnt / $1..." | tee -a $name.log
-    dd if=/dev/random of=$TESTFILE_PATH/1m-$cnt.file bs=1m count=1 2>> $name.log
-    dd if=/dev/random of=$TESTFILE_PATH/5m-$cnt.file bs=1m count=5 2>> $name.log
-    dd if=/dev/random of=$TESTFILE_PATH/10m-$cnt.file bs=1m count=10 2>> $name.log
+    dd if=/dev/urandom of=$TESTFILE_PATH/0.25k-$cnt.file bs=1K count=256 2>> $name.log
+    dd if=/dev/urandom of=$TESTFILE_PATH/0.5k-$cnt.file bs=1K count=512 2>> $name.log
+    dd if=/dev/urandom of=$TESTFILE_PATH/1m-$cnt.file bs=1M count=1 2>> $name.log
+    dd if=/dev/urandom of=$TESTFILE_PATH/5m-$cnt.file bs=1M count=5 2>> $name.log
+    dd if=/dev/urandom of=$TESTFILE_PATH/10m-$cnt.file bs=1M count=10 2>> $name.log
 done
-    
+
 echo "Done!" | tee -a $name.log
