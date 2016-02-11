@@ -1,5 +1,5 @@
 #!/bin/bash
-source serval-base
+source $SCRIPT_PATH/serval-base
 
 echo -n "Number of meshms conversations: "
 servald meshms list conversations $SID | tail -n+3 | wc -l

@@ -1,5 +1,6 @@
 #!/bin/bash
+SCRIPT_PATH=$(dirname $0)
 
-kill `cat servald-log.pid`
-kill `cat rhizome-log.pid`
-kill `cat meshms-log.pid`
+kill `cat $SCRIPT_PATH/servald-log-$(hostname).pid`
+kill `cat $SCRIPT_PATH/rhizome-log-$(hostname).pid`
+kill `cat $SCRIPT_PATH/meshms-log-$(hostname).pid`

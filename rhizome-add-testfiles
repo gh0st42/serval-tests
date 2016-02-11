@@ -1,5 +1,5 @@
 #!/bin/sh
-source serval-base
+source $SCRIPT_PATH/serval-base
 
 for i in $TESTFILES; do 
     servald rhizome add file $SID $i

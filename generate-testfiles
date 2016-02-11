@@ -1,5 +1,5 @@
 #!/bin/sh
-source serval-base
+source $SCRIPT_PATH/serval-base
 
 name=$(basename $0)
 re='^[0-9]+$'

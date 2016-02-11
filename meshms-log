@@ -1,5 +1,5 @@
 #!/bin/bash
-source serval-base
+source $SCRIPT_PATH/serval-base
 
 mkdir -p $LOG_PATH
 OUTFILE="$LOG_PATH/meshms-$(date +%s)-$(hostname).csv"

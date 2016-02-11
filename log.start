@@ -1,8 +1,10 @@
 #!/bin/bash
+export SCRIPT_PATH=$(dirname $0)
+echo $SCRIPT_PATH
 
-./servald-log &
-echo $! > servald-log.pid
-./rhizome-log &
-echo $! > rhizome-log.pid
-./meshms-log &
-echo $! > meshms-log.pid
+$SCRIPT_PATH/servald-log &
+echo $! > $SCRIPT_PATH/servald-log-$(hostname).pid
+$SCRIPT_PATH/rhizome-log &
+echo $! > $SCRIPT_PATH/rhizome-log-$(hostname).pid
+$SCRIPT_PATH/meshms-log &
+echo $! > $SCRIPT_PATH/meshms-log-$(hostname).pid
