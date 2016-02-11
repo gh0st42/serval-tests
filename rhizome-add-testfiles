@@ -1,6 +1,11 @@
-#!/bin/sh
-source $SCRIPT_PATH/serval-base
+#!/bin/bash
+. $SCRIPT_PATH/serval-vars
+. $SCRIPT_PATH/serval-base
 
-for i in $TESTFILES; do 
+if [-z $1] ; then
+  TESTFILES=$1/*
+fi
+
+for i in $TESTFILES; do
     servald rhizome add file $SID $i
 done

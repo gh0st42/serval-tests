@@ -6,12 +6,12 @@ OUTFILE="$LOG_PATH/rhizome-$(date +%s)-$(hostname).csv"
 echo "timestamp_ms,file_count,blobdir_size_k,db_size_k,files_size" | tee -a $OUTFILE
 
 while [ true ]; do
-    sleep_until_next_ms 200
+    sleep $SLEEP_TIME
     NOW=$(date_ms)
     COUNT=$(($(servald rhizome list | wc -l) -1 ))
     BLOBSIZE=$(du -k $RHIZOME_STORE_PATH/blob | cut -f1)
     DBSIZE=$(du -k $RHIZOME_STORE_PATH/rhizome.db | cut -f1)
     FILES_SIZE=$(sqlite3 $RHIZOME_STORE_PATH/rhizome.db <<< 'select total(MANIFESTS.filesize) from MANIFESTS where MANIFESTS.service = "file";')
-    
+
     echo "$NOW,$COUNT,$BLOBSIZE,$DBSIZE,$FILES_SIZE" | tee -a $OUTFILE
 done

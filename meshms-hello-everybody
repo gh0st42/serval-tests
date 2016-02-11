@@ -1,5 +1,6 @@
 #!/bin/bash
-source $SCRIPT_PATH/serval-base
+. $SCRIPT_PATH/serval-vars
+. $SCRIPT_PATH/serval-base
 
 for their_sid in $ALLPEERS; do
     echo "Sending MeshMS to $their_sid"

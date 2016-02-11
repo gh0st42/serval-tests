@@ -1,13 +1,6 @@
 #!/bin/bash
 # this script defines basic variables for other tools
 
-LOG_PATH="/tmp/serval-logs"
-
-TESTFILE_PATH="/tmp/serval-testfiles"
-mkdir -p $TESTFILE_PATH
-
-TESTFILES="$TESTFILE_PATH/*"
-
 
 RHIZOME_STORE_PATH=`servald config paths | tail -n-1 | cut -d":" -f2`
 SID=`servald id self | sed -n 3p`
