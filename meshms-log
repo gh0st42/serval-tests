@@ -2,7 +2,7 @@
 source serval-base
 
 mkdir -p $LOG_PATH
-OUTFILE="$LOG_PATH/meshms-$(date +%s).csv"
+OUTFILE="$LOG_PATH/meshms-$(date +%s)-$(hostname).csv"
 echo "timestamp_ms,my_conv_count,total_conv_count,meshms_bytes" | tee -a $OUTFILE
 
 while [ true ]; do

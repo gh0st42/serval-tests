@@ -2,7 +2,7 @@
 source serval-base
 
 mkdir -p $LOG_PATH
-OUTFILE="$LOG_PATH/servald-$(date +%s).csv"
+OUTFILE="$LOG_PATH/servald-$(date +%s)-$(hostname).csv"
 echo "timestamp_ms,peer_count" | tee -a $OUTFILE
 
 while [ true ]; do

@@ -2,7 +2,7 @@
 source serval-base
 
 mkdir -p $LOG_PATH
-OUTFILE="$LOG_PATH/rhizome-$(date +%s).csv"
+OUTFILE="$LOG_PATH/rhizome-$(date +%s)-$(hostname).csv"
 echo "timestamp_ms,file_count,blobdir_size_k,db_size_k,files_size" | tee -a $OUTFILE
 
 while [ true ]; do
@@ -11,17 +11,7 @@ while [ true ]; do
     COUNT=$(($(servald rhizome list | wc -l) -1 ))
     BLOBSIZE=$(du -k $RHIZOME_STORE_PATH/blob | cut -f1)
     DBSIZE=$(du -k $RHIZOME_STORE_PATH/rhizome.db | cut -f1)
+    FILES_SIZE=$(sqlite3 $RHIZOME_STORE_PATH/rhizome.db <<< 'select sum(MANIFESTS.filesize) from MANIFESTS where MANIFESTS.service = "file";')
     
-    # Sums all file sizes in rhizome store; slow and not used.
-    # IFS=$'\n'
-    # LIST=$(servald rhizome list | grep ":file:")
-    # SIZE=0
-    # COUNT=0
-    # for file in $LIST; do
-    #     FILESIZE=$(())
-    #     SIZE=$((SIZE + $(echo $file | cut -d":" -f9) ))
-    #     COUNT=$((COUNT + 1))
-    # done
-    
-    echo "$NOW,$COUNT,$BLOBSIZE,$DBSIZE,$SIZE" | tee -a $OUTFILE
+    echo "$NOW,$COUNT,$BLOBSIZE,$DBSIZE,$FILES_SIZE" | tee -a $OUTFILE
 done
