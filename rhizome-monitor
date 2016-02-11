@@ -7,6 +7,8 @@ if [ "$1" = "-h" ]; then
     exit 0
 fi
 
+echo $RHIZOME_STORE_PATH/rhizome.db
+
 OUTFILE="$MONITOR_PATH/rhizome-$(date +%Y-%m-%d_%H-%M)-$(hostname).csv"
 mkdir -p $MONITOR_PATH
 echo "timestamp_ms,file_count,blobdir_size_k,db_size_k,files_size" > $OUTFILE
@@ -17,7 +19,7 @@ while [ true ]; do
     COUNT=$(($(servald rhizome list | wc -l) -1 ))
     BLOBSIZE=$(du -k $RHIZOME_STORE_PATH/blob | cut -f1)
     DBSIZE=$(du -k $RHIZOME_STORE_PATH/rhizome.db | cut -f1)
-    FILES_SIZE=$(sqlite3 $RHIZOME_STORE_PATH/rhizome.db <<< 'select total(MANIFESTS.filesize) from MANIFESTS where MANIFESTS.service = "file";')
+    FILES_SIZE=$(echo 'select total(MANIFESTS.filesize) from MANIFESTS where MANIFESTS.service = "file";' | sqlite3 $RHIZOME_STORE_PATH/rhizome.db)
 
     echo "$NOW,$COUNT,$BLOBSIZE,$DBSIZE,$FILES_SIZE" >> $OUTFILE
 done

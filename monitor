@@ -1,5 +1,6 @@
 #!/bin/sh
 if [ -z $SCRIPT_PATH ]; then SCRIPT_PATH=$(dirname $0); fi
+. $SCRIPT_PATH/serval-base
 
 usage() {
     echo "usage:"
@@ -14,24 +15,28 @@ if [ -z $1 ]; then
 fi
 
 if [ "$1" = "start" ]; then
-    mkdir -p $MONITOR_PATH/run
-    mkdir -p $MONITOR_PATH/log
+    HOSTNAME=$(hostname)
+    mkdir -p $MONITOR_PATH/run/
+    mkdir -p $MONITOR_PATH/log/
 
-    $SCRIPT_PATH/servald-monitor &
-    echo $! > $MONITOR_PATH/run/servald-monitor-$HOSTNAME.pid > /dev/null 2> $MONITOR_PATH/log/servald-monitor-$HOSTNAME.err
-    $SCRIPT_PATH/rhizome-monitor &
-    echo $! > $MONITOR_PATH/run/rhizome-monitor-$HOSTNAME.pid > /dev/null 2> $MONITOR_PATH/log/rhizome-monitor-$HOSTNAME.err
-    $SCRIPT_PATH/meshms-monitor &
-    echo $! > $MONITOR_PATH/run/meshms-monitor-$HOSTNAME.pid > /dev/null 2> $MONITOR_PATH/log/meshms-monitor-$HOSTNAME.err
+    $SCRIPT_PATH/servald-monitor & > /dev/null 2> $MONITOR_PATH/log/servald-monitor-$HOSTNAME.err
+    echo $! > $MONITOR_PATH/run/servald-monitor-$HOSTNAME.pid
+
+    $SCRIPT_PATH/rhizome-monitor & > /dev/null 2> $MONITOR_PATH/log/rhizome-monitor-$HOSTNAME.err
+    echo $! > $MONITOR_PATH/run/rhizome-monitor-$HOSTNAME.pid
+
+    $SCRIPT_PATH/meshms-monitor & > /dev/null 2> $MONITOR_PATH/log/meshms-monitor-$HOSTNAME.err
+    echo $! > $MONITOR_PATH/run/meshms-monitor-$HOSTNAME.pid
     exit 0
 fi
 
 if [ "$1" = "stop" ]; then
-    kill `cat $MONITOR_PATH/run/servald-monitor-$HOSTNAME.pid`
+    HOSTNAME=$(hostname)
+    kill -9 $(cat $MONITOR_PATH/run/servald-monitor-$HOSTNAME.pid)
     rm $MONITOR_PATH/run/servald-monitor-$HOSTNAME.pid
-    kill `cat $MONITOR_PATH/run/rhizome-monitor-$HOSTNAME.pid`
+    kill -9 $(cat $MONITOR_PATH/run/rhizome-monitor-$HOSTNAME.pid)
     rm $MONITOR_PATH/run/rhizome-monitor-$HOSTNAME.pid
-    kill `cat $MONITOR_PATH/run/meshms-monitor-$HOSTNAME.pid`
+    kill -9 $(cat $MONITOR_PATH/run/meshms-monitor-$HOSTNAME.pid)
     rm $MONITOR_PATH/run/meshms-monitor-$HOSTNAME.pid
     exit 0
 fi

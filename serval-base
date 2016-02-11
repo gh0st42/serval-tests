@@ -17,20 +17,9 @@ date_ms() {
 sleep_until_next_ms() {
     MS=$1
     NOW=$(date_ms)
-    SLEEP_S=$(bc <<< "scale=3; ($((MS - (NOW % MS)))) / 1000")
+    SLEEP_MS=$((MS - (NOW % MS)))
+    SLEEP_S=$(echo "scale=3; $SLEEP_MS / 1000" | bc)
     # echo "Sleeping ${SLEEP_S}s"
     sleep $SLEEP_S
 }
 
-if [ "$1" = "-h" ]; then
-    echo "usage: $0 [ -h | --dump ]"
-    echo "defines dynamic variables and helper functions used in serval-tests"
-    exit 0
-fi
-
-if [ "$1" = "--dump" ]; then
-    echo RHIZOME_STORE_PATH=$RHIZOME_STORE_PATH
-    echo SID=$SID
-    echo SEVERAL_ALL_SIDS_FILE=$SEVERAL_ALL_SIDS_FILE:
-    cat $SEVERAL_ALL_SIDS_FILE
-fi

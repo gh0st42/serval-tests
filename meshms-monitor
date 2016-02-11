@@ -17,8 +17,8 @@ while [ true ]; do
     
     NOW=$(date_ms)
     MY_COUNT=$(( $(servald meshms list conversations $SID | wc -l) -2 ))
-    TOTAL_COUNT=$(sqlite3 $RHIZOME_STORE_PATH/rhizome.db <<< 'select count(MANIFESTS.filesize) from MANIFESTS where MANIFESTS.service = "MeshMS2";')
-    MESHMS_BYTES=$(sqlite3 $RHIZOME_STORE_PATH/rhizome.db <<< 'select total(MANIFESTS.filesize) from MANIFESTS where MANIFESTS.service = "MeshMS2";')
+    TOTAL_COUNT=$(echo 'select count(MANIFESTS.filesize) from MANIFESTS where MANIFESTS.service = "MeshMS2";' | sqlite3 $RHIZOME_STORE_PATH/rhizome.db)
+    MESHMS_BYTES=$(echo 'select total(MANIFESTS.filesize) from MANIFESTS where MANIFESTS.service = "MeshMS2";' |sqlite3 $RHIZOME_STORE_PATH/rhizome.db)
     
     echo "$NOW,$MY_COUNT,$TOTAL_COUNT,$MESHMS_BYTES" >> $OUTFILE
 done

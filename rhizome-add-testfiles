@@ -9,7 +9,7 @@ if [ "$1" = "-h" ]; then
     exit 0
 fi
 
-if [-z $1] ; then TESTFILES="$1/*"; fi
+if [ -z $1] ; then TESTFILES="$1/*"; fi
 
 for i in $TESTFILES; do
     servald rhizome add file $SID $i
