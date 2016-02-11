@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 SCRIPT_PATH=$(dirname $0)
 
 kill `cat $SCRIPT_PATH/servald-log-$(hostname).pid`

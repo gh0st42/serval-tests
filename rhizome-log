@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 source $SCRIPT_PATH/serval-base
 
 mkdir -p $LOG_PATH

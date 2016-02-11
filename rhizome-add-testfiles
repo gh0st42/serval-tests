@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 . $SCRIPT_PATH/serval-vars
 . $SCRIPT_PATH/serval-base
 
