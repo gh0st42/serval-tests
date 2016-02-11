@@ -2,7 +2,7 @@
 . $SCRIPT_PATH/serval-vars
 . $SCRIPT_PATH/serval-base
 
-for their_sid in $ALLPEERS; do
+for their_sid in $(cat $SEVERAL_ALL_SIDS_FILE); do
     echo "Sending MeshMS to $their_sid"
     servald meshms send message $SID $their_sid "hello"
 done
