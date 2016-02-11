@@ -1,8 +1,10 @@
-#! /bin/bash
+#! /bin/sh
 
-rm /tmp/serval-ids
+. $SCRIPT_PATH/serval-vars
+
+rm $SEVERAL_ALL_SIDS_FILE
 
 for f in `find /tmp/  2>/dev/null | grep pycore.*/n[0-9]*$`
 do
-	vcmd -c $f -- servald id self | egrep [A-F0-9]+{64} >> /tmp/serval-ids
+	vcmd -c $f -- servald id self | egrep [A-F0-9]+{64} >> $SEVERAL_ALL_SIDS_FILE
 done

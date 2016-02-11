@@ -1,0 +1,12 @@
+#!/bin/sh
+# this script defines basic variables for other tools
+
+LOG_PATH="/tmp/serval-logs"
+
+TESTFILE_PATH="/tmp/serval-testfiles"
+
+TESTFILES="$TESTFILE_PATH/*"
+
+SLEEP_TIME=1
+
+SEVERAL_ALL_SIDS_FILE="/tmp/serval-all-ids"
