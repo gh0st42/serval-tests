@@ -11,7 +11,7 @@ while [ true ]; do
     COUNT=$(($(servald rhizome list | wc -l) -1 ))
     BLOBSIZE=$(du -k $RHIZOME_STORE_PATH/blob | cut -f1)
     DBSIZE=$(du -k $RHIZOME_STORE_PATH/rhizome.db | cut -f1)
-    FILES_SIZE=$(sqlite3 $RHIZOME_STORE_PATH/rhizome.db <<< 'select sum(MANIFESTS.filesize) from MANIFESTS where MANIFESTS.service = "file";')
+    FILES_SIZE=$(sqlite3 $RHIZOME_STORE_PATH/rhizome.db <<< 'select total(MANIFESTS.filesize) from MANIFESTS where MANIFESTS.service = "file";')
     
     echo "$NOW,$COUNT,$BLOBSIZE,$DBSIZE,$FILES_SIZE" | tee -a $OUTFILE
 done

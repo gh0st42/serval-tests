@@ -23,5 +23,5 @@ function sleep_until_next_ms {
 }
 
 function date_ms {
-    gdate +%s%N | cut -b1-13
+    date +%s%N | cut -b1-13
 }
