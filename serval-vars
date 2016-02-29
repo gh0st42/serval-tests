@@ -1,10 +1,9 @@
 #!/bin/sh
-# this script defines basic variables for other tools
+# basic variables
 
-LOG_PATH="/tmp/serval-logs"
+MONITOR_PATH="/tmp/serval-monitor"
 
 TESTFILE_PATH="/tmp/serval-testfiles"
-
 TESTFILES="$TESTFILE_PATH/*"
 
 SLEEP_TIME=1

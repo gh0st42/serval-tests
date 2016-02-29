@@ -1,0 +1,51 @@
+#!/bin/sh
+if [ -z $SCRIPT_PATH ]; then SCRIPT_PATH=$(dirname $0); fi
+. $SCRIPT_PATH/serval-base
+
+usage() {
+    echo "usage:"
+    echo "  $0 start     start logging of serval, rhizome and meshms"
+    echo "  $0 stop      stop logging"
+    echo "  $0 help      show this help message"
+}
+
+if [ -z $1 ]; then
+    usage
+    exit 1
+fi
+
+if [ "$1" = "start" ]; then
+    HOSTNAME=$(hostname)
+    mkdir -p $MONITOR_PATH/run/
+    mkdir -p $MONITOR_PATH/log/
+
+    $SCRIPT_PATH/servald-monitor & > /dev/null 2> $MONITOR_PATH/log/servald-monitor-$HOSTNAME.err
+    echo $! > $MONITOR_PATH/run/servald-monitor-$HOSTNAME.pid
+
+    $SCRIPT_PATH/rhizome-monitor & > /dev/null 2> $MONITOR_PATH/log/rhizome-monitor-$HOSTNAME.err
+    echo $! > $MONITOR_PATH/run/rhizome-monitor-$HOSTNAME.pid
+
+    $SCRIPT_PATH/meshms-monitor & > /dev/null 2> $MONITOR_PATH/log/meshms-monitor-$HOSTNAME.err
+    echo $! > $MONITOR_PATH/run/meshms-monitor-$HOSTNAME.pid
+    exit 0
+fi
+
+if [ "$1" = "stop" ]; then
+    HOSTNAME=$(hostname)
+    kill -9 $(cat $MONITOR_PATH/run/servald-monitor-$HOSTNAME.pid)
+    rm $MONITOR_PATH/run/servald-monitor-$HOSTNAME.pid
+    kill -9 $(cat $MONITOR_PATH/run/rhizome-monitor-$HOSTNAME.pid)
+    rm $MONITOR_PATH/run/rhizome-monitor-$HOSTNAME.pid
+    kill -9 $(cat $MONITOR_PATH/run/meshms-monitor-$HOSTNAME.pid)
+    rm $MONITOR_PATH/run/meshms-monitor-$HOSTNAME.pid
+    exit 0
+fi
+
+if [ "$1" = "help" ]; then
+    usage
+    exit 0
+fi
+
+echo "unknown command: $1"
+usage
+exit 1

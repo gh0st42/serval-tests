@@ -1,29 +1,27 @@
 #!/bin/sh
+if [ -z $SCRIPT_PATH ]; then SCRIPT_PATH=$(dirname $0); fi
 . $SCRIPT_PATH/serval-vars
 
-name=$(basename $0)
-re='^[0-9]+$'
+usage() {
+    echo "usage: $0 <count> [output_path]"
+    echo "generates <count> times 5 files at [output_path] or \$TESTFILE_PATH"
+}
 
-if [ -z $1 ]; then
-    echo "usage: $name <number of files> [output_path]"
-    exit 1;
-fi
-
-if [ ! -z $2 ]; then
-  TESTFILE_PATH=$2
-fi
+if [ -z $1 ]; then usage; exit 1; fi
+if [ "$1" = "-h" ]; then usage; exit 0; fi
+if ! [ -z $2 ]; then TESTFILE_PATH=$2; fi
 
 mkdir -p $TESTFILE_PATH
 
-rm -f $name.log
+echo "generating files in $TESTFILE_PATH"
 
 for cnt in `seq 1 $1`; do
-    echo "generating files: $cnt / $1..." | tee -a $name.log
-    dd if=/dev/urandom of=$TESTFILE_PATH/0.25k-$cnt.file bs=1K count=256 2>> $name.log
-    dd if=/dev/urandom of=$TESTFILE_PATH/0.5k-$cnt.file bs=1K count=512 2>> $name.log
-    dd if=/dev/urandom of=$TESTFILE_PATH/1m-$cnt.file bs=1M count=1 2>> $name.log
-    dd if=/dev/urandom of=$TESTFILE_PATH/5m-$cnt.file bs=1M count=5 2>> $name.log
-    dd if=/dev/urandom of=$TESTFILE_PATH/10m-$cnt.file bs=1M count=10 2>> $name.log
+    echo "generating files: $cnt / $1..."
+    dd if=/dev/urandom of=$TESTFILE_PATH/0.25k-$cnt.file bs=1K count=256
+    dd if=/dev/urandom of=$TESTFILE_PATH/0.5k-$cnt.file bs=1K count=512
+    dd if=/dev/urandom of=$TESTFILE_PATH/1m-$cnt.file bs=1M count=1
+    dd if=/dev/urandom of=$TESTFILE_PATH/5m-$cnt.file bs=1M count=5
+    dd if=/dev/urandom of=$TESTFILE_PATH/10m-$cnt.file bs=1M count=10
 done
 
-echo "Done!" | tee -a $name.log
+echo "Done!"

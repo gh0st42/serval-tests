@@ -1,6 +1,5 @@
 #!/bin/sh
-. $SCRIPT_PATH/serval-vars
+if [ -z $SCRIPT_PATH ]; then SCRIPT_PATH=$(dirname $0); fi
 . $SCRIPT_PATH/serval-base
 
-echo -n "Number of meshms conversations: "
-servald meshms list conversations $SID | tail -n+3 | wc -l
+echo Number of meshms conversations: $(servald meshms list conversations $SID | tail -n+3 | wc -l)

@@ -1,6 +1,11 @@
 #!/bin/sh
-. $SCRIPT_PATH/serval-vars
+if [ -z $SCRIPT_PATH ]; then SCRIPT_PATH=$(dirname $0); fi
 . $SCRIPT_PATH/serval-base
+
+if [ "$1" = "-h" ]; then
+    echo "Sends a message to every SID in $SEVERAL_ALL_SIDS_FILE"
+    exit 0
+fi
 
 for their_sid in $(cat $SEVERAL_ALL_SIDS_FILE); do
     echo "Sending MeshMS to $their_sid"
