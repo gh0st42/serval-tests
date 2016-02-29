@@ -1,0 +1,20 @@
+#!/bin/sh
+if [ -z $SCRIPT_PATH ]; then SCRIPT_PATH=$(dirname $0); fi
+. $SCRIPT_PATH/serval-base
+
+if [ "$1" = "-h" ]; then
+    echo "writes a csv dump for network traffic to $MONITOR_PATH"
+    echo "usage:   $0 ifname"
+    exit 0
+fi
+
+if [ -z $1 ]; then
+    echo "Error: missing parameter 1"
+    echo "usage: $0 ifname"
+    exit 1
+fi
+    
+
+OUTFILE="$MONITOR_PATH/netmon-$(date +%Y-%m-%d_%H-%M)-$(hostname)-$1.csv"
+mkdir -p $MONITOR_PATH
+exec python netmon.py $1 > $OUTFILE
