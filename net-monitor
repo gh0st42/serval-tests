@@ -17,4 +17,4 @@ fi
 
 OUTFILE="$MONITOR_PATH/netmon-$(date +%Y-%m-%d_%H-%M)-$(hostname)-$1.csv"
 mkdir -p $MONITOR_PATH
-exec python netmon.py $1 > $OUTFILE
+exec python $SCRIPT_PATH/netmon.py $1 > $OUTFILE
