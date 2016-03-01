@@ -1,6 +1,6 @@
 #!/bin/sh
 if [ "$1" = "-h" ]; then
-    echo "Lists number and and names of files in Rhizome store."
+    echo "Lists number and names of files in Rhizome store."
     exit 0
 fi
 
