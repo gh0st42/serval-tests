@@ -24,7 +24,7 @@ def log_handler(signum, frame):
     signal.alarm(1)
 
 def print_header():
-    print "# timestamp,cnt_pkt,cnt_ip,cnt_tcp,cnt_udp,size_pkt,size_ip,size_tcp,size_udp"
+    print "timestamp_ms,cnt_pkt,cnt_ip,cnt_tcp,cnt_udp,size_pkt,size_ip,size_tcp,size_udp"
 
 def print_total_stats_human():
     print "\n" , "="*40
@@ -46,8 +46,8 @@ def print_total_stats():
     print csv_line
 
 def print_cur_stats():
-    cur_time = time.time()
-    csv_line = str(cur_time) + ","
+    cur_time = int(time.time() * 1000)
+    csv_line = str(cur_time) + ','
     csv_line += "%d,%d,%d,%d" % (cur_cnt['pkt'],cur_cnt['ip'],cur_cnt['tcp'],cur_cnt['udp'])
     csv_line += ",%d,%d,%d,%d" % (cur_size['pkt'],cur_size['ip'],cur_size['tcp'],cur_size['udp'])
     print csv_line
