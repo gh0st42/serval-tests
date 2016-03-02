@@ -8,7 +8,8 @@ if [ "$1" = "-h" ]; then
     exit 0
 fi
 
-OUTFILE="$MONITOR_PATH/meshms-$(date +%Y-%m-%d_%H-%M)-$(hostname).csv"
+MONITOR_PATH="$MONITOR_PATH/$(date +%Y-%m-%d_%H-%M)"
+OUTFILE="$MONITOR_PATH/meshms-$(hostname).csv"
 mkdir -p $MONITOR_PATH
 echo "timestamp_ms,my_conv_count,total_conv_count,meshms_bytes" > $OUTFILE
 

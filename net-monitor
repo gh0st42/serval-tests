@@ -15,6 +15,7 @@ if [ -z $1 ]; then
 fi
     
 
-OUTFILE="$MONITOR_PATH/netmon-$(date +%Y-%m-%d_%H-%M)-$(hostname)-$1.csv"
+MONITOR_PATH="$MONITOR_PATH/$(date +%Y-%m-%d_%H-%M)"
+OUTFILE="$MONITOR_PATH/netmon-$(hostname)-$1.csv"
 mkdir -p $MONITOR_PATH
 exec python $SCRIPT_PATH/netmon.py $1 > $OUTFILE
