@@ -1,0 +1,18 @@
+#!/bin/sh
+if [ -z $SCRIPT_PATH ]; then SCRIPT_PATH=$(dirname $0); fi
+. $SCRIPT_PATH/serval-vars
+
+if [ "$1" = "-h" ]; then
+    echo "writes a csv dump for servald pidstat properties to $MONITOR_PATH"
+    exit 0
+fi
+
+OUTFILE="$MONITOR_PATH/pidstat-$(date +%Y-%m-%d_%H-%M)-$(hostname).csv"
+mkdir -p $MONITOR_PATH
+
+echo headline
+pidstat -drsuh -p ALL | sed '1d;/^$/d;s/#[ ]*Time/timestamp/g;s/^[ ]*//;s/[ ]\+/,/g' | head -n 1 > $OUTFILE
+
+echo data
+
+exec pidstat -drush -p ALL -C "servald$" 1 | sed -u '1d;/^[#]/d;/^$/d;s/^[ ]*//;s/[ ]\+/,/g' >> $OUTFILE

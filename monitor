@@ -28,6 +28,9 @@ if [ "$1" = "start" ]; then
     $SCRIPT_PATH/meshms-monitor & > /dev/null 2> $MONITOR_PATH/log/meshms-monitor-$HOSTNAME.err
     echo $! > $MONITOR_PATH/run/meshms-monitor-$HOSTNAME.pid
     
+    $SCRIPT_PATH/pidstat-monitor & > /dev/null 2> $MONITOR_PATH/log/pidstat-monitor-$HOSTNAME.err
+    echo $! > $MONITOR_PATH/run/pidstat-monitor-$HOSTNAME.pid
+    
     for IF in $(ls -1 /sys/class/net); do
         $SCRIPT_PATH/net-monitor $IF & > /dev/null 2> $MONITOR_PATH/log/net-monitor-$HOSTNAME-$IF.err
         echo $! > $MONITOR_PATH/run/net-monitor-$HOSTNAME-$IF.pid
@@ -44,6 +47,8 @@ if [ "$1" = "stop" ]; then
     rm $MONITOR_PATH/run/rhizome-monitor-$HOSTNAME.pid
     kill -9 $(cat $MONITOR_PATH/run/meshms-monitor-$HOSTNAME.pid)
     rm $MONITOR_PATH/run/meshms-monitor-$HOSTNAME.pid
+    kill -9 $(cat $MONITOR_PATH/run/pidstat-monitor-$HOSTNAME.pid)
+    rm $MONITOR_PATH/run/pidstat-monitor-$HOSTNAME.pid
     
     for PIDFILE in $MONITOR_PATH/run/net-monitor-$HOSTNAME*; do
         kill -9 $(cat $PIDFILE)

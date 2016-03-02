@@ -14,7 +14,8 @@ import time
 
 def signal_handler(signum, frame):
         print('You pressed Ctrl+C!')
-        print_total_stats()
+        # No total stats to be compatible to other logfiles
+        # print_total_stats()
         sys.stdout.flush()
         sys.exit(0)
 

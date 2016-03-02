@@ -19,6 +19,7 @@ The following monitoring scripts can be used to log information regarding serval
 * **servald-monitor** - peer count
 * **net-monitor** - count and size of ip, udp, tcp packets
 	* uses **netmon.py** and therefore needs python
+* **pidstat-monitor** - tracks pidstat info of servald
 
 ### Monitoring daemon
 The **monitor** script is able to start/stop all scripts as a daemons and takes care of the involved PIDs:
