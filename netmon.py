@@ -122,5 +122,6 @@ try:
 
 except KeyboardInterrupt:
     #print('You pressed Ctrl+C!')
-    print_total_stats()
+    # No total stats to be compatible to other logfiles
+    # print_total_stats()
     sys.exit(0)
