@@ -1,0 +1,30 @@
+#! /bin/sh
+if [ "$1" = "-h" ]; then
+    echo "usage: $0 [...]"
+    echo "daemonizes a command on every core node"
+fi
+
+PIDS=""
+ctrl_c() {
+        echo "** Trapped CTRL-C"
+	if ! [ -z "$VAR" ]; then
+		echo "killing $PIDS"
+		kill -9 $PIDS
+	fi
+	exit 0
+}
+trap ctrl_c INT
+
+for f in `find /tmp/  2>/dev/null | grep pycore.*/n[0-9]*$`
+do
+	echo '# HOST:' ${f##*/}
+	vcmd -c $f -- $@ &
+	PIDS="$PIDS $!"
+    	echo "Started process with pid $!"
+done
+echo "stdout and stderr from nodes can be flushed in any order..."
+
+while [ true ]; do
+	sleep 1
+done
+
