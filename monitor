@@ -32,8 +32,8 @@ if [ "$1" = "start" ]; then
     echo $! > $MONITOR_PATH/run/pidstat-monitor-$HOSTNAME.pid
     
     for IF in $(ls -1 /sys/class/net); do
-        $SCRIPT_PATH/net-monitor $IF & > /dev/null 2> $MONITOR_PATH/log/net-monitor-$HOSTNAME-$IF.err
-        echo $! > $MONITOR_PATH/run/net-monitor-$HOSTNAME-$IF.pid
+        $SCRIPT_PATH/net-monitor $IF & > /dev/null 2> $MONITOR_PATH/log/net-monitor-$HOSTNAME@$IF.err
+        echo $! > $MONITOR_PATH/run/net-monitor-$HOSTNAME@$IF.pid
     done
     
     exit 0
