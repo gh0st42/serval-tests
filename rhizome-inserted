@@ -1,0 +1,16 @@
+#!/bin/sh
+if [ -z $SCRIPT_PATH ]; then SCRIPT_PATH=$(dirname $0); fi
+. $SCRIPT_PATH/serval-vars
+. $SCRIPT_PATH/serval-base
+
+if [ "$1" = "-h" ]; then
+    echo "writes a csv dump for rhizome properties (inserttime, filename, filehash) to $MONITOR_PATH"
+    exit 0
+fi
+
+MONITOR_PATH="$MONITOR_PATH/$(date +%Y-%m-%d_%H-%M)"
+OUTFILE="$MONITOR_PATH/rhizome_inserted_-$(hostname).csv"
+mkdir -p $MONITOR_PATH
+echo "timestamp_ms,filename,filehash" > $OUTFILE
+
+tail -f -n+1 /home/meshadmin/serval-conf/var/log/serval.log | grep --line-buffered 'rhizome_store_manifest()  INSERT OR REPLACE.*file' | awk {'split($10,a,","); print a[4] "," a[10] "," a[7]'} | grep -v NULL >> $OUTFILE
