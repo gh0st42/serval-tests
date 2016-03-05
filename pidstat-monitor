@@ -11,6 +11,6 @@ MONITOR_PATH="$MONITOR_PATH/$(date +%Y-%m-%d_%H-%M)"
 OUTFILE="$MONITOR_PATH/pidstat-$(hostname).csv"
 mkdir -p $MONITOR_PATH
 
-pidstat -drsuh -p ALL | sed '1d;/^$/d;s/#[ ]*Time/timestamp/g;s/^[ ]*//;s/[ ]\+/,/g' | head -n 1 > $OUTFILE
+pidstat -druh -p ALL | sed '1d;/^$/d;s/#[ ]*Time/timestamp/g;s/^[ ]*//;s/[ ]\+/,/g' | head -n 1 > $OUTFILE
 
-exec pidstat -drush -p ALL -C "servald$" 1 | sed -u '1d;/^[#]/d;/^$/d;s/^[ ]*//;s/[ ]\+/,/g' >> $OUTFILE
+exec pidstat -druh -p ALL -C "servald$" 1 | sed -u '1d;/^[#]/d;/^$/d;s/^[ ]*//;s/[ ]\+/,/g' >> $OUTFILE
