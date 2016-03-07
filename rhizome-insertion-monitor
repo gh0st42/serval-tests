@@ -4,7 +4,7 @@ if [ -z $SCRIPT_PATH ]; then SCRIPT_PATH=$(dirname $0); fi
 . $SCRIPT_PATH/serval-base
 
 if [ "$1" = "-h" ]; then
-    echo "writes a csv dump for rhizome properties (inserttime, filename, filehash) to $MONITOR_PATH"
+    echo "follows serval.log and creates csv dump for rhizome insertions to $MONITOR_PATH"
     exit 0
 fi
 
