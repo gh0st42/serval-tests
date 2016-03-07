@@ -13,4 +13,4 @@ OUTFILE="$MONITOR_PATH/rhizome-inserted-$(hostname).csv"
 mkdir -p $MONITOR_PATH
 echo "timestamp_ms,sender,recipient" > $OUTFILE
 
-tail -f -n+1 $SYSTEM_LOG_PATH/serval.log | grep --line-buffered 'rhizome_store_manifest()  INSERT OR REPLACE.*MeshMS' | awk {'split($10,a,","); print a[4] "," a[11] "," a[12]'} >> $OUTFILE
+tail -f -n+1 $SYSTEM_LOG_PATH/serval.log | grep --line-buffered 'rhizome_store_manifest()  INSERT OR REPLACE.*MeshMS' | awk {'split($10,a,","); print a[4] "," a[11] "," a[12]; fflush(stdout)'} >> $OUTFILE
