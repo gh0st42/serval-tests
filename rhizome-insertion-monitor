@@ -9,7 +9,7 @@ if [ "$1" = "-h" ]; then
 fi
 
 MONITOR_PATH="$MONITOR_PATH/$(date +%Y-%m-%d_%H-%M)"
-OUTFILE="$MONITOR_PATH/rhizome_inserted_-$(hostname).csv"
+OUTFILE="$MONITOR_PATH/rhizome-inserted-$(hostname).csv"
 mkdir -p $MONITOR_PATH
 echo "timestamp_ms,filename,filehash" > $OUTFILE
 
