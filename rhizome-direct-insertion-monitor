@@ -9,8 +9,8 @@ if [ "$1" = "-h" ]; then
 fi
 
 MONITOR_PATH="$MONITOR_PATH/$(date +%Y-%m-%d_%H-%M)"
-OUTFILE="$MONITOR_PATH/rhizome-insertion-$(hostname).csv"
+OUTFILE="$MONITOR_PATH/rhizome-direct-insertion-$(hostname).csv"
 mkdir -p $MONITOR_PATH
 echo "_id:service:id:version:date:timestamp_ms:.author:.fromhere:filesize:filehash:sender:recipient:name" > $OUTFILE
 
-exec $SCRIPT_PATH/rhizome-insertion.py >> $OUTFILE
+exec $SCRIPT_PATH/rhizome-direct-insertion.py >> $OUTFILE
