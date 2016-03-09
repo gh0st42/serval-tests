@@ -16,6 +16,7 @@ fi
 
 if [ "$1" = "start" ]; then
     HOSTNAME=$(hostname)
+    MONITOR_PATH="$MONITOR_PATH/$(date +%Y-%m-%d_%H-%M)"
     mkdir -p $MONITOR_PATH/run/
     mkdir -p $MONITOR_PATH/log/
 
