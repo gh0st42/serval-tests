@@ -10,8 +10,8 @@ fi
 
 NEWEST_MONITOR_PATH=`ls -td -- $MONITOR_PATH/* | head -n 1`
 MONITOR_PATH="$NEWEST_MONITOR_PATH"
-OUTFILE="$MONITOR_PATH/rhizome-insertion-$(hostname).csv"
+OUTFILE="$MONITOR_PATH/rhizome-direct-insertion-$(hostname).csv"
 mkdir -p $MONITOR_PATH
 echo "_id:service:id:version:date:timestamp_ms:.author:.fromhere:filesize:filehash:sender:recipient:name" > $OUTFILE
 
-exec $SCRIPT_PATH/rhizome-insertion.py >> $OUTFILE
+exec $SCRIPT_PATH/rhizome-direct-insertion.py >> $OUTFILE
