@@ -1,0 +1,12 @@
+#! /bin/sh
+if [ "$1" = "-h" ]; then
+    echo "usage: $0 [...]"
+    echo "watches servald on every core node, and fires errors"
+fi
+
+while [ true ]; do
+    for f in `find /tmp/  2>/dev/null | grep pycore.*/n[0-9]*$`; do
+	    vcmd -c $f -- sh -c 'if [ $(ps aux | grep "servald start" | grep -v grep | wc -l) -lt 1 ]; then echo \"Serval crashed on $(hostname)\"; fi'
+    done
+    sleep 1
+done
