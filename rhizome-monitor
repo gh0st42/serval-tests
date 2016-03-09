@@ -7,8 +7,6 @@ if [ "$1" = "-h" ]; then
     exit 0
 fi
 
-echo $RHIZOME_STORE_PATH/rhizome.db
-
 MONITOR_PATH="$MONITOR_PATH/$(date +%Y-%m-%d_%H-%M)"
 OUTFILE="$MONITOR_PATH/rhizome-$(hostname).csv"
 mkdir -p $MONITOR_PATH
