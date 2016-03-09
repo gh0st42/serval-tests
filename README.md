@@ -8,7 +8,6 @@ Some small helper and benchmark scripts for serval
 * **serval-base** - dynamic variables and helper functions
 	* as some properties are requested from serval, servald *needs* to run.
 
-
 ## Monitoring
 
 ### Basic scripts
@@ -20,6 +19,8 @@ The following monitoring scripts can be used to log information regarding serval
 * **net-monitor** - count and size of ip, udp, tcp packets
 	* uses **netmon.py** and therefore needs python
 * **pidstat-monitor** - tracks pidstat info of servald
+* **meshms-insertion-monitor** - follows serval.log and creates csv dump for meshms insertions
+* ... (more to come)
 
 ### Monitoring daemon
 The **monitor** script is able to start/stop all scripts as a daemons and takes care of the involved PIDs:
@@ -39,18 +40,11 @@ usage:
 
 
 ## Data manipulation
-* **meshms-hello-everybody** - sends a meshms to everybody in $SEVERAL_ALL_SIDS_FILE
-* **rhizome-add-testfiles** - inserts all files at $1 or $TESTFILE_PATH 
+* **meshms-hello-everybody** - sends a meshms to everybody in $SEVERAL\_ALL\_SIDS\_FILE
+* **rhizome-add-testfiles** - inserts all files at $1 or $TESTFILE\_PATH 
 
-
-## Core network emulator helpers
-* **get-sids-core** - writes SIDs from all core nodes to $SEVERAL_ALL_SIDS_FILE
-* **execute-all-core** - excecutes a command on every core node and shows the output
-* **daemonize-all-core** - executes and forks a command on every core node (silently)
-* **show-log** - should be run from main host, opens log of given node name in less for viewing or if -n is appended just outputs the absolute log file path (e.g. $ show-log n12 )
 
 
 ## Other helpers
-* **generate-testfiles** - generates <count> times 5 files at [output_path] or $TESTFILE_PATH
+* **generate-testfiles** - generates <count> times 5 files at [output\_path] or $TESTFILE\_PATH
 * **mesh-scan** - initiates a serval scan for all local inet addrs
-* **check-crash** - should be run from main host, checks all serval logs for FATAL log entries
