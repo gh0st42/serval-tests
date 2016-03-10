@@ -58,7 +58,8 @@ fi
 
 if [ "$1" = "stop" ]; then
     . $SCRIPT_PATH/serval-base
-    
+    # echo node $HOSTNAME, killing `cat $MONITOR_PATH/$HOSTNAME.pids`
+    # ps aux
     kill `cat $MONITOR_PATH/$HOSTNAME.pids`
     rm $MONITOR_PATH/$HOSTNAME.pids
     
