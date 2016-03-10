@@ -8,10 +8,9 @@ if [ "$1" = "-h" ]; then
     exit 0
 fi
 
-NEWEST_MONITOR_PATH=`ls -td -- $MONITOR_PATH/* | head -n 1`
-MONITOR_PATH="$NEWEST_MONITOR_PATH"
-OUTFILE="$MONITOR_PATH/meshms-insertion-$(hostname).csv"
-mkdir -p $MONITOR_PATH
+# using latest monitoring path
+MONITOR_PATH=`ls -td -- $MONITOR_PATH/*/ | grep -v log | head -n 1`
+OUTFILE="$MONITOR_PATH/rhizome-direct-insertion-$(hostname).csv"
 echo "timestamp,sender,recipient,text" > $OUTFILE
 
 exec $SCRIPT_PATH/meshms-insertion.py >> $OUTFILE
