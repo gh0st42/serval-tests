@@ -1,11 +1,12 @@
 #!/bin/sh
 if [ -z $SCRIPT_PATH ]; then SCRIPT_PATH=$(dirname $0); fi
-. $SCRIPT_PATH/serval-base
+. $SCRIPT_PATH/serval-vars
 
 usage() {
     echo "usage:"
-    echo "  $0 start     start logging of serval, rhizome and meshms"
-    echo "  $0 stop      stop logging"
+    echo "  $0 system    start logging of serval, rhizome and meshms"
+    echo "  $0 serval    start logging of serval, rhizome and meshms"
+    echo "  $0 stop      stop logging; parse serval logs"
     echo "  $0 help      show this help message"
 }
 
@@ -16,7 +17,26 @@ fi
 
 HOSTNAME=$(hostname)
 
-if [ "$1" = "start" ]; then
+if [ "$1" = "system" ]; then
+    mkdir -p $MONITOR_PATH/log/ 
+    
+    nohup $SCRIPT_PATH/pidstat-monitor > $MONITOR_PATH/log/pidstat-monitor-$HOSTNAME.err 2>&1 &
+    PIDS="$PIDS $!"
+    
+    for IF in $(ls -1 /sys/class/net); do
+        nohup $SCRIPT_PATH/net-monitor $IF > $MONITOR_PATH/log/net-monitor-$HOSTNAME@$IF.err 2>&1 &
+        PIDS="$PIDS $!"
+    done
+    
+    # sleep a second to allow processes to start
+    sleep 1
+    
+    echo $PIDS >> $MONITOR_PATH/$HOSTNAME.pids
+    exit 0
+fi
+
+if [ "$1" = "serval" ]; then
+    . $SCRIPT_PATH/serval-base
     mkdir -p $MONITOR_PATH/log/
 
     nohup $SCRIPT_PATH/servald-monitor > $MONITOR_PATH/log/servald-monitor-$HOSTNAME.err 2>&1 &
@@ -27,21 +47,16 @@ if [ "$1" = "start" ]; then
 
     nohup $SCRIPT_PATH/meshms-monitor > $MONITOR_PATH/log/meshms-monitor-$HOSTNAME.err 2>&1 &
     PIDS="$PIDS $!"
+
+    # sleep a second to allow processes to start
+    sleep 1
     
-    nohup $SCRIPT_PATH/pidstat-monitor > $MONITOR_PATH/log/pidstat-monitor-$HOSTNAME.err 2>&1 &
-    PIDS="$PIDS $!"
-    
-    for IF in $(ls -1 /sys/class/net); do
-        nohup $SCRIPT_PATH/net-monitor $IF > $MONITOR_PATH/log/net-monitor-$HOSTNAME@$IF.err 2>&1 &
-        PIDS="$PIDS $!"
-        sleep 0.1
-    done
-    
-    echo $PIDS > $MONITOR_PATH/$HOSTNAME.pids
+    echo $PIDS >> $MONITOR_PATH/$HOSTNAME.pids
     exit 0
 fi
 
 if [ "$1" = "stop" ]; then
+    . $SCRIPT_PATH/serval-base
     kill `cat $MONITOR_PATH/$HOSTNAME.pids`
     rm $MONITOR_PATH/$HOSTNAME.pids
     

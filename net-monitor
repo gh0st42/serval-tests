@@ -1,6 +1,6 @@
 #!/bin/sh
 if [ -z $SCRIPT_PATH ]; then SCRIPT_PATH=$(dirname $0); fi
-. $SCRIPT_PATH/serval-base
+. $SCRIPT_PATH/serval-vars
 
 if [ "$1" = "-h" ]; then
     echo "writes a csv dump for network traffic to $MONITOR_PATH"

@@ -4,7 +4,7 @@ if [ -z $SCRIPT_PATH ]; then SCRIPT_PATH=$(dirname $0); fi
 . $SCRIPT_PATH/serval-vars
 
 RHIZOME_STORE_PATH=`servald config paths | tail -n-1 | cut -d":" -f2`
-SID=`servald id self | sed -n 3p`
+SID=`servald id self 2> /dev/null | sed -n 3p `
 SYSTEM_LOG_PATH=`servald config paths | grep SYSTEM_LOG_PATH | cut -d ":" -f2`
 
 if ! [ -e SEVERAL_ALL_SIDS_FILE ]; then
