@@ -11,6 +11,7 @@ import dpkt, pcap
 import signal
 import sys
 import time
+from thread import start_new_thread
 
 def signal_handler(signum, frame):
         print('You pressed Ctrl+C!')
@@ -20,9 +21,17 @@ def signal_handler(signum, frame):
         sys.exit(0)
 
 def log_handler(signum, frame):
-    print_cur_stats()
+    print("hello")
+    # print_cur_stats()
     sys.stdout.flush()
+
     signal.alarm(1)
+
+def logger():
+    while True:
+        print_cur_stats()
+        sys.stdout.flush()
+        time.sleep(1)
 
 def print_header():
     print "timestamp_ms,cnt_pkt,cnt_ip,cnt_tcp,cnt_udp,cnt_serval_tcp,cnt_serval_udp,size_pkt,size_ip,size_tcp,size_udp,size_serval_tcp,size_serval_udp"
@@ -79,64 +88,62 @@ cur_cnt = {'pkt':0, 'ip':0, 'tcp':0, 'udp':0, 'serval_tcp':0, 'serval_udp':0}
 cur_size = {'pkt':0, 'ip':0, 'tcp':0, 'udp':0, 'serval_tcp':0, 'serval_udp':0}
 
 
-signal.signal(signal.SIGINT, signal_handler)
-signal.signal(signal.SIGALRM, log_handler)
+# signal.signal(signal.SIGINT, signal_handler)
+# signal.signal(signal.SIGALRM, log_handler)
 
 print_header()
 last_time = time.time()
-signal.alarm(1)
-try:
-    for timestamp, raw_buf in pc:
-        output = {}
+start_new_thread(logger,())
+# signal.alarm(1)
+while True:
+    try:
+        for timestamp, raw_buf in pc:
+            output = {}
 
-        # Unpack the Ethernet frame (mac src/dst, ethertype)
-        eth = dpkt.ethernet.Ethernet(raw_buf)
+            # Unpack the Ethernet frame (mac src/dst, ethertype)
+            eth = dpkt.ethernet.Ethernet(raw_buf)
 
-        packet_size = len(raw_buf)
+            packet_size = len(raw_buf)
 
-        cur_cnt['pkt'] += 1
-        total_cnt['pkt'] += 1
+            cur_cnt['pkt'] += 1
+            total_cnt['pkt'] += 1
 
-        cur_size['pkt'] += packet_size
-        total_size['pkt'] += packet_size
+            cur_size['pkt'] += packet_size
+            total_size['pkt'] += packet_size
 
-        if eth.type != dpkt.ethernet.ETH_TYPE_IP:
-            continue
+            if eth.type != dpkt.ethernet.ETH_TYPE_IP:
+                continue
 
-        ip = eth.data
+            ip = eth.data
 
-        cur_cnt['ip'] += 1
-        total_cnt['ip'] += 1
+            cur_cnt['ip'] += 1
+            total_cnt['ip'] += 1
 
-        cur_size['ip'] += packet_size
-        total_size['ip'] += packet_size
+            cur_size['ip'] += packet_size
+            total_size['ip'] += packet_size
 
-        if ip.p==dpkt.ip.IP_PROTO_TCP:
-           TCP=ip.data
-           cur_cnt['tcp'] += 1
-           total_cnt['tcp'] += 1
-           cur_size['tcp'] += packet_size
-           total_size['tcp'] += packet_size
-           if TCP.dport == 4110:
-               cur_cnt['serval_tcp'] += 1
-               total_cnt['serval_tcp'] += 1
-               cur_size['serval_tcp'] += packet_size
-               total_size['serval_tcp'] += packet_size
+            if ip.p==dpkt.ip.IP_PROTO_TCP:
+               TCP=ip.data
+               cur_cnt['tcp'] += 1
+               total_cnt['tcp'] += 1
+               cur_size['tcp'] += packet_size
+               total_size['tcp'] += packet_size
+               if TCP.dport == 4110:
+                   cur_cnt['serval_tcp'] += 1
+                   total_cnt['serval_tcp'] += 1
+                   cur_size['serval_tcp'] += packet_size
+                   total_size['serval_tcp'] += packet_size
 
-        elif ip.p==dpkt.ip.IP_PROTO_UDP:
-           UDP=ip.data
-           cur_cnt['udp'] += 1
-           total_cnt['udp'] += 1
-           cur_size['udp'] += packet_size
-           total_size['udp'] += packet_size
-           if UDP.dport == 4110:
-               cur_cnt['serval_udp'] += 1
-               total_cnt['serval_udp'] += 1
-               cur_size['serval_udp'] += packet_size
-               total_size['serval_udp'] += packet_size
-
-except KeyboardInterrupt:
-    #print('You pressed Ctrl+C!')
-    # No total stats to be compatible to other logfiles
-    # print_total_stats()
-    sys.exit(0)
+            elif ip.p==dpkt.ip.IP_PROTO_UDP:
+               UDP=ip.data
+               cur_cnt['udp'] += 1
+               total_cnt['udp'] += 1
+               cur_size['udp'] += packet_size
+               total_size['udp'] += packet_size
+               if UDP.dport == 4110:
+                   cur_cnt['serval_udp'] += 1
+                   total_cnt['serval_udp'] += 1
+                   cur_size['serval_udp'] += packet_size
+                   total_size['serval_udp'] += packet_size
+    except Exception as e:
+        print "Netmon Error: ", e
