@@ -32,7 +32,7 @@ if [ "$1" = "system" ]; then
     # sleep a second to allow processes to start
     # sleep 1
     
-    echo $PIDS >> $MONITOR_PATH/$HOSTNAME.pids
+    echo -n " $PIDS" >> $MONITOR_PATH/$HOSTNAME.pids
     exit 0
 fi
 
@@ -52,14 +52,13 @@ if [ "$1" = "serval" ]; then
     # sleep a second to allow processes to start
     # sleep 1
     
-    echo $PIDS >> $MONITOR_PATH/$HOSTNAME.pids
+    echo -n " $PIDS" >> $MONITOR_PATH/$HOSTNAME.pids
     exit 0
 fi
 
 if [ "$1" = "stop" ]; then
     . $SCRIPT_PATH/serval-base
-    # echo Killing processes on $HOSTNAME: `cat $MONITOR_PATH/$HOSTNAME.pids`
-    # ps aux
+    
     kill `cat $MONITOR_PATH/$HOSTNAME.pids`
     rm $MONITOR_PATH/$HOSTNAME.pids
     
