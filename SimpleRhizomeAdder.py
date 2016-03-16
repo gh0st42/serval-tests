@@ -25,12 +25,14 @@ if __name__ == "__main__":
     signal.signal(signal.SIGINT, signal_handler)
     basename = socket.gethostname()
     while running:
-        rhizomeRandomFile(basename+"-"+str(size_k)+"k-"+str(count)+".bin", size_k, mySid)
-        count += 1
-        if file_count == count:
+    	if file_count == count:
         	running = False
+        	break
         if timeout != -1 and later < time.time():
         	running = False
+        	break
+        rhizomeRandomFile(basename+"-"+str(size_k)+"k-"+str(count)+".bin", size_k, mySid)
+        count += 1
         insertion_delay_ms = min_delay_ms + random.randint(0, delay_jitter_ms)
         print("Inserted files, sleeping for "+str(insertion_delay_ms)+"ms")
         time.sleep(float(insertion_delay_ms)/100)
