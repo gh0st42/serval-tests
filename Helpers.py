@@ -17,7 +17,7 @@ def rhizomeRandomFile(name, size_k, sid, their_sid=None):
         # write 1k random data
         f.write(os.urandom(1024))
         # write missing bytes 
-        f.write('\0'*1024*(size_k-1))
+        f.write('\0' * 1024 * (size_k-1))
     
     commmand = [SERVALD_BIN, "rhizome", "add", "file", sid, filepath, "/dev/null", "", "sender="+sid]
     if their_sid: commmand.append("recipient="+their_sid)
