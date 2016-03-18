@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import hashlib, subprocess, os, binascii
+import hashlib, subprocess, os, binascii, sys, random
 
 SERVALD_BIN = "servald"
    
@@ -12,17 +12,29 @@ def getNeightbourSids():
     return sids.split('\n')[2:-1]
 
 def rhizomeRandomFile(name, size_k, sid, their_sid=None):
-    filepath = "/tmp/"+name
-    with open(filepath, 'wb') as f:
-        # write 1k random data
-        f.write(os.urandom(1024))
-        # write missing bytes 
-        f.write('\0' * 1024 * (size_k-1))
+	if size_k == 'f1':
+		size_k = random.randint(64, 512)
+		filepath = "/tmp/"+name.replace('f1', str(size_k))
+	elif size_k == 'f2':
+		size_k = random.randint(1000, 10000)
+		filepath = "/tmp/"+name.replace('f2', str(size_k))
+	elif size_k == 'f3':
+		size_k = random.randint(25000, 100000)
+		filepath = "/tmp/"+name.replace('f3', str(size_k))
+	else:
+		filepath = "/tmp/"+name
+	
+	print '### SIZE ###:' + str(size_k)
+	with open(filepath, 'wb') as f:
+		# write 1k random data
+		f.write(os.urandom(1024))
+		#write missing bytes 
+		f.write('\0' * 1024 * (int(size_k)-1))
     
-    commmand = [SERVALD_BIN, "rhizome", "add", "file", sid, filepath, "/dev/null", "", "sender="+sid]
-    if their_sid: commmand.append("recipient="+their_sid)
-    subprocess.call(commmand)
-    os.remove(filepath)
+	commmand = [SERVALD_BIN, "rhizome", "add", "file", sid, filepath, "/dev/null", "", "sender="+sid]
+	if their_sid: commmand.append("recipient="+their_sid)
+	subprocess.call(commmand)
+	os.remove(filepath)
 
 def randomMeshMS(size, my_sid, their_sid):
     subprocess.call([SERVALD_BIN, "meshms", "send", "message", my_sid, their_sid, binascii.b2a_hex(os.urandom(size/2))])
