@@ -63,7 +63,9 @@ if [ "$1" = "stop" ]; then
     kill `cat $MONITOR_PATH/$HOSTNAME.pids`
     rm $MONITOR_PATH/$HOSTNAME.pids
     
-    cp -R `servald config paths | grep SERVAL_LOG_PATH | cut -d ":" -f2` $MONITOR_PATH/serval-logs-$HOSTNAME
+    # using latest monitoring path
+    LATEST_MONITOR_PATH=`ls -td -- $MONITOR_PATH/*/ | grep 20 | head -n 1`
+    cp -R `servald config paths | grep SERVAL_LOG_PATH | cut -d ":" -f2` $LATEST_MONITOR_PATH/serval-logs-$HOSTNAME
     
     $SCRIPT_PATH/rhizome-insertion-monitor > $MONITOR_PATH/log/rhizome-insertion-monitor-$HOSTNAME.err 2>&1
     $SCRIPT_PATH/rhizome-direct-insertion-monitor > $MONITOR_PATH/log/rhizome-direct-insertion-monitor-$HOSTNAME.err 2>&1
