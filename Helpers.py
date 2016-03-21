@@ -2,6 +2,11 @@
 import hashlib, subprocess, os, binascii, sys, random
 
 SERVALD_BIN = "servald"
+
+F1 = [64, 256, 512]
+F2 = [1000, 5000, 10000]
+F3 = [25000, 50000, 100000]
+F4 = F1 + F2 + F3
    
 def getSid():
     sid = subprocess.check_output(SERVALD_BIN+" id self", shell=True)
@@ -13,14 +18,17 @@ def getNeightbourSids():
 
 def rhizomeRandomFile(name, size_k, sid, their_sid=None):
 	if size_k == 'f1':
-		size_k = random.randint(64, 512)
+		size_k = random.choice(F1)
 		filepath = "/tmp/"+name.replace('f1', str(size_k))
 	elif size_k == 'f2':
-		size_k = random.randint(1000, 10000)
+		size_k = random.choice(F2)
 		filepath = "/tmp/"+name.replace('f2', str(size_k))
 	elif size_k == 'f3':
-		size_k = random.randint(25000, 100000)
+		size_k = random.choice(F3)
 		filepath = "/tmp/"+name.replace('f3', str(size_k))
+	elif size_k == 'f4':
+		size_k = random.choice(F4)
+		filepath = "/tmp/"+name.replace('f4', str(size_k))
 	else:
 		filepath = "/tmp/"+name
 	
