@@ -13,8 +13,8 @@ def getSid():
     return sid.split('\n')[2]
     
 def getNeightbourSids():
-    sids = subprocess.check_output(SERVALD_BIN+" id allpeers", shell=True)
-    return sids.split('\n')[2:-1]
+	with open("/tmp/serval-all-sids", 'r') as sid_file:
+		return sid_file.readlines()
 
 def rhizomeRandomFile(name, size_k, sid, their_sid=None):
 	if size_k == 'f1':
