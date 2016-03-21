@@ -10,7 +10,7 @@ fi
 
 
 # using latest monitoring path
-MONITOR_PATH=`ls -td -- $MONITOR_PATH/*/ | grep -v log | head -n 1`
+MONITOR_PATH=`ls -td -- $MONITOR_PATH/*/ | grep 20 | head -n 1`
 OUTFILE="$MONITOR_PATH/rhizome-insertion-$(hostname).csv"
 echo "_id:service:id:version:date:timestamp_ms:.author:.fromhere:filesize:filehash:sender:recipient:name" > $OUTFILE
 

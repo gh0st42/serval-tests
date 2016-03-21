@@ -9,7 +9,7 @@ if [ "$1" = "-h" ]; then
 fi
 
 # using latest monitoring path
-MONITOR_PATH=`ls -td -- $MONITOR_PATH/*/ | grep -v log | head -n 1`
+MONITOR_PATH=`ls -td -- $MONITOR_PATH/*/ | grep 20 | head -n 1`
 OUTFILE="$MONITOR_PATH/rhizome-direct-insertion-$(hostname).csv"
 echo "timestamp,sender,recipient,text" > $OUTFILE
 
