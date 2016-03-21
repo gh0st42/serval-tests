@@ -8,4 +8,4 @@ TESTFILES="$TESTFILE_PATH/*"
 
 SLEEP_TIME=1
 
-SEVERAL_ALL_SIDS_FILE="/tmp/serval-all-ids"
+SEVERAL_ALL_SIDS_FILE="/tmp/serval-all-sids"
