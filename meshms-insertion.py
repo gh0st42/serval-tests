@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import hashlib, subprocess, os, binascii, time
+import hashlib, subprocess, os, binascii, time, sys
 
 SERVALD_BIN = "servald"
 

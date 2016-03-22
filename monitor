@@ -73,6 +73,7 @@ if [ "$1" = "stop" ]; then
     $SCRIPT_PATH/rhizome-insertion-monitor > $MONITOR_PATH/log/rhizome-insertion-monitor-$HOSTNAME.err 2>&1
     $SCRIPT_PATH/rhizome-direct-insertion-monitor > $MONITOR_PATH/log/rhizome-direct-insertion-monitor-$HOSTNAME.err 2>&1
     $SCRIPT_PATH/meshms-insertion-monitor > $MONITOR_PATH/log/meshms-insertion-monitor-$HOSTNAME.err 2>&1
+    $SCRIPT_PATH/meshms-log-monitor > $MONITOR_PATH/log/meshms-log-monitor-$HOSTNAME.err 2>&1
     
     exit 0
 fi

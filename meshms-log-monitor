@@ -10,9 +10,9 @@ fi
 
 # using latest monitoring path
 MONITOR_PATH=`ls -td -- $MONITOR_PATH/*/ | grep 20 | head -n 1`
-OUTFILE="$MONITOR_PATH/meshms-insertion-$(hostname).csv"
+OUTFILE="$MONITOR_PATH/meshms-insertion-log-$(hostname).csv"
 
-echo "timestamp,sender,recipient,text" > $OUTFILE
-exec $SCRIPT_PATH/meshms-insertion.py >> $OUTFILE
+echo "id,manifest,version,inserttime,bar,filesize,filehash,author,service,name,sender,recipient,tail,manifest_hash" > $OUTFILE
+exec $SCRIPT_PATH/meshms-insertion-log.py "$SYSTEM_LOG_PATH/serval" >> $OUTFILE
 
 

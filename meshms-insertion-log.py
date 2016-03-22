@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+
 import os, sys
 
 LINE_FILTERS = ['INSERT OR REPLACE INTO MANIFESTS', 'MeshMS2']
