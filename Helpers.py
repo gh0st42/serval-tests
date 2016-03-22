@@ -14,7 +14,7 @@ def getSid():
     
 def getNeightbourSids():
 	with open("/tmp/serval-all-sids", 'r') as sid_file:
-		return sid_file.readlines()
+		return map(lambda x: x.replace('\n', ''), sid_file.readlines())
 
 def rhizomeRandomFile(name, size_k, sid, their_sid=None):
 	if size_k == 'f1':
@@ -32,12 +32,13 @@ def rhizomeRandomFile(name, size_k, sid, their_sid=None):
 	else:
 		filepath = "/tmp/"+name
 	
-	print '### SIZE ###:' + str(size_k)
 	with open(filepath, 'wb') as f:
 		# write 1k random data
 		f.write(os.urandom(1024))
 		#write missing bytes 
 		f.write('\0' * 1024 * (int(size_k)-1))
+		
+	print sid, filepath, their_sid
     
 	commmand = [SERVALD_BIN, "rhizome", "add", "file", sid, filepath, "/dev/null", "", "sender="+sid]
 	if their_sid: commmand.append("recipient="+their_sid)
