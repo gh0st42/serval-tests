@@ -1,15 +1,19 @@
 #!/usr/bin/env python
-import hashlib, subprocess, os, binascii, time
+import hashlib, subprocess, os, binascii, time, sys
 
 SERVALD_BIN = "servald"
 
-def printPublicRhizome():
-	rhizome_list = (subprocess.check_output(SERVALD_BIN + " rhizome list", shell=True)).split('\n')
-	for rhizome_file in rhizome_list[2:-1]:
-		rhizome_file_splitted = rhizome_file.split(':')
-		if (rhizome_file_splitted[1] == 'MeshMS2') or (rhizome_file_splitted[1] == 'file' and len(rhizome_file_splitted[-2]) != 0):
-			pass
-		else:
-			print ','.join(rhizome_file_splitted)
+def printPublicRhizome(log_files_path):
+	for log_file_path in os.listdir(log_files_path):
+		if not(log_file_path.endswith('.log')):
+			continue
+		
+		with open(log_files_path + log_file_path, 'r') as log_file:
+			log_list = log_file.readlines()
+			for line in log_list:
+				if ('INSERT OR REPLACE INTO MANIFESTS' in line) and ('file' in line):
+					line_list = line.split('VALUES')[1].replace('(', '').replace(')', '').replace('\n', '').replace(';', '').split(',')
+					if line_list[-3] == 'NULL':
+						print ','.join(line_list)
     
-printPublicRhizome()
+printPublicRhizome(sys.argv[1])
