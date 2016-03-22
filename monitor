@@ -39,6 +39,8 @@ fi
 if [ "$1" = "serval" ]; then
     . $SCRIPT_PATH/serval-base
     mkdir -p $MONITOR_PATH/log/
+    
+    servald id self | tail -n 1 > $MONITOR_PATH/$(date +%Y-%m-%d_%H-%M)/$HOSTNAME.sid 2>&1
 
     nohup $SCRIPT_PATH/servald-monitor > $MONITOR_PATH/log/servald-monitor-$HOSTNAME.err 2>&1 &
     PIDS="$PIDS $!"
