@@ -5,7 +5,7 @@ from Helpers import *
 
 parser = argparse.ArgumentParser(description='Periodically generate and send messages to neighbourly serval peers')
 parser.add_argument('-d', dest='min_delay_ms', default=0, help='set minimum insertion delay (ms)')
-parser.add_argument('-j', dest='delay_jitter_ms', default=100, help='set maximum jitter (ms) for insertion delay')
+parser.add_argument('-j', dest='delay_jitter_ms', default=1000, help='set maximum jitter (ms) for insertion delay')
 parser.add_argument('-s', dest='size_b', default=64, help='size (Byte) of files to be inserted')
 parser.add_argument('-t', dest='timeout', default=-1, type=int, help='stop after timout')
 args = parser.parse_args()
