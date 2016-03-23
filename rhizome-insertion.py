@@ -11,7 +11,7 @@ def printPublicRhizome(log_files_path):
 		with open(log_files_path + log_file_path, 'r') as log_file:
 			log_list = log_file.readlines()
 			for line in log_list:
-				if ('INSERT OR REPLACE INTO MANIFESTS' in line) and ('file' in line):
+				if ('INSERT OR REPLACE INTO MANIFESTS' in line) and not ('MeshMS2' in line):
 					line_list = line.split('VALUES')[1].replace('(', '').replace(')', '').replace('\n', '').replace(';', '').split(',')
 					if line_list[-3] == 'NULL':
 						print ','.join(line_list)
