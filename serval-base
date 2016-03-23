@@ -7,9 +7,9 @@ RHIZOME_STORE_PATH=`servald config paths 2> /dev/null | tail -n-1 | cut -d":" -f
 SID=`servald id self 2> /dev/null | sed -n 3p `
 SYSTEM_LOG_PATH=`servald config paths 2> /dev/null | grep SYSTEM_LOG_PATH | cut -d ":" -f2`
 
-if ! [ -e SEVERAL_ALL_SIDS_FILE ]; then
-    servald id allpeers 2> /dev/null | tail -n+3 > $SEVERAL_ALL_SIDS_FILE
-fi
+#if ! [ -e SEVERAL_ALL_SIDS_FILE ]; then
+#    servald id allpeers 2> /dev/null | tail -n+3 > $SEVERAL_ALL_SIDS_FILE
+#fi
 
 date_ms() {
     date +%s%N | cut -b1-13
