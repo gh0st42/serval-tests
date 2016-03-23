@@ -18,6 +18,13 @@ def printAllConversations():
     for other_sid in other_sids:
         conversation = (subprocess.check_output(SERVALD_BIN + " meshms list messages " + own_sid + " " + other_sid, shell=True)).split('\n')
         for conversation_message in conversation[2:-1]:
-            print str(now-int(conversation_message.split(':')[2])) + ',' + own_sid + ',' + other_sid + ',' + conversation_message.split(':')[4]
+        	send_time = now - int(conversation_message.split(':')[2])
+        	message = conversation_message.split(':')[4]
+        	direction = conversation_message.split(':')[3]
+        	
+        	if direction == '>':
+        		print str(send_time) + ',' + own_sid + ',' + other_sid + ',' + message
+        	elif direction == '<':
+        		print str(send_time) + ',' + other_sid + ',' + own_sid + ',' + message
 
 printAllConversations()
