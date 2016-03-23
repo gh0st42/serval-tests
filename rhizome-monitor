@@ -15,7 +15,7 @@ echo "timestamp_ms,file_count,blobdir_size_k,db_size_k,files_size" > $OUTFILE
 while [ true ]; do
     sleep $SLEEP_TIME
     NOW=$(date_ms)
-    COUNT=$(($(servald rhizome list | wc -l) -1 ))
+    COUNT=$(($(servald rhizome list | wc -l) -2 ))
     BLOBSIZE=$(du -k $RHIZOME_STORE_PATH/blob | cut -f1)
     DBSIZE=$(du -k $RHIZOME_STORE_PATH/rhizome.db | cut -f1)
     # FILES_SIZE=$(echo 'select total(MANIFESTS.filesize) from MANIFESTS where MANIFESTS.service = "file";' | sqlite3 $RHIZOME_STORE_PATH/rhizome.db)
