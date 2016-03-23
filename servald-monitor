@@ -8,9 +8,10 @@ if [ "$1" = "-h" ]; then
     exit 0
 fi
 
-MONITOR_PATH="$MONITOR_PATH/$(date +%Y-%m-%d_%H-%M)"
+# using latest monitoring path
+MONITOR_PATH=`ls -td -- $MONITOR_PATH/*/ | grep 20 | head -n 1`
 OUTFILE="$MONITOR_PATH/servald-$(hostname).csv"
-mkdir -p $MONITOR_PATH
+
 echo "timestamp_ms,peer_count" > $OUTFILE
 
 while [ true ]; do

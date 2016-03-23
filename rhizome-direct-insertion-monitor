@@ -11,6 +11,7 @@ fi
 # using latest monitoring path
 MONITOR_PATH=`ls -td -- $MONITOR_PATH/*/ | grep 20 | head -n 1`
 OUTFILE="$MONITOR_PATH/rhizome-direct-insertion-$(hostname).csv"
+
 echo "id,manifest,version,timestamp_ms,bar,filesize,filehash,author,service,name,sender,recipient,tail,manifest_hash" > $OUTFILE
 
 exec $SCRIPT_PATH/rhizome-direct-insertion.py $SYSTEM_LOG_PATH/serval/ >> $OUTFILE
