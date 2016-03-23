@@ -14,7 +14,7 @@ def getSid():
     
 def getNeightbourSids():
 	with open("/tmp/serval-all-sids", 'r') as sid_file:
-		return map(lambda x: x.replace('\n', ''), sid_file.readlines())
+		return filter(lambda x: x != getSid(), map(lambda x: x.replace('\n', ''), sid_file.readlines()))
 
 def rhizomeRandomFile(name, size_k, sid, their_sid=None):
 	if size_k == 'f1':
