@@ -5,7 +5,7 @@ SERVALD_BIN = "servald"
 
 def getOwnSid():
     sid = subprocess.check_output(SERVALD_BIN+" id self", shell=True)
-    return sid.split('\n')[2]
+    return "'" + sid.split('\n')[2] + "'"
 
 def printPublicRhizome(log_files_path):
 	for log_file_path in os.listdir(log_files_path):
@@ -15,7 +15,7 @@ def printPublicRhizome(log_files_path):
 		with open(log_files_path + log_file_path, 'r') as log_file:
 			log_list = log_file.readlines()
 			for line in log_list:
-				if ('INSERT OR REPLACE INTO MANIFESTS' in line) and ("'file'" in line):
+				if ('INSERT OR REPLACE INTO MANIFESTS' in line) and ('file' in line):
 					line_list = line.split('VALUES')[1].replace('(', '').replace(')', '').replace('\n', '').replace(';', '').split(',')
 					if (line_list[-4] == getOwnSid()) or (line_list[-3] == getOwnSid()):
 						print ','.join(line_list)
