@@ -9,10 +9,17 @@ if [ "$1" = "-h" ]; then
     exit 0
 fi
 
+# using latest monitoring path
+MONITOR_PATH=`ls -td -- $MONITOR_PATH/*/ | grep 20 | head -n 1`
+OUTFILE="$MONITOR_PATH/rhizome-add-testfiles-proactive-$(hostname).csv"
+
+if ! [ -e $OUTFILE ]; then
+	echo "timestamp,sender,file" > $OUTFILE
+fi
+
 if ! [ -z $1 ]; then TESTFILES="$1/*"; fi
 
-echo $TESTFILES
-
 for i in $TESTFILES; do
+	echo "`date +%s`,$SID,`basename $i`" >> $OUTFILE
     servald rhizome add file $SID $i
 done
