@@ -11,7 +11,7 @@ fi
 
 # using latest monitoring path
 MONITOR_PATH=`ls -td -- $MONITOR_PATH/*/ | grep 20 | head -n 1`
-OUTFILE="$MONITOR_PATH/rhizome-add-testfiles-proactive-$(hostname).csv"
+OUTFILE="$MONITOR_PATH/active/rhizome-add-testfiles-active-$(hostname).csv"
 
 if ! [ -e $OUTFILE ]; then
 	echo "timestamp,sender,file" > $OUTFILE

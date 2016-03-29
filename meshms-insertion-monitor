@@ -10,7 +10,7 @@ fi
 
 # using latest monitoring path
 MONITOR_PATH=`ls -td -- $MONITOR_PATH/*/ | grep 20 | head -n 1`
-OUTFILE="$MONITOR_PATH/meshms-insertion-$(hostname).csv"
+OUTFILE=$(echo "$MONITOR_PATH/meshms-insertion/meshms-insertion-$(hostname).csv" | sed s#//*#/#g)
 
 echo "timestamp,sender,recipient,text" > $OUTFILE
 exec $SCRIPT_PATH/meshms-insertion.py >> $OUTFILE

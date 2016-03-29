@@ -17,15 +17,29 @@ fi
 
 HOSTNAME=$(hostname)
 
+LATEST_MONITOR_PATH=`ls -td -- $MONITOR_PATH/*/ | grep 20 | head -n 1` 2> /dev/null
+
 if [ "$1" = "system" ]; then
-    mkdir -p $MONITOR_PATH/log/ 
+	DIR_TIME=$(date +%Y-%m-%d_%H-%M)
+	mkdir -p $MONITOR_PATH/$DIR_TIME
+	LATEST_MONITOR_PATH=`ls -td -- $MONITOR_PATH/*/ | grep 20 | head -n 1`
+	
+	mkdir -p $LATEST_MONITOR_PATH/active
+
+    mkdir -p $LATEST_MONITOR_PATH/err-log/
+    mkdir -p $LATEST_MONITOR_PATH/netmon
+    mkdir -p $LATEST_MONITOR_PATH/pidstat
+    mkdir -p $LATEST_MONITOR_PATH/diskusage
     
-    nohup $SCRIPT_PATH/pidstat-monitor > $MONITOR_PATH/log/pidstat-monitor-$HOSTNAME.err 2>&1 &
+    nohup $SCRIPT_PATH/pidstat-monitor > $LATEST_MONITOR_PATH/err-log/pidstat-monitor-$HOSTNAME.err 2>&1 &
+    PIDS="$PIDS $!"
+        
+    nohup $SCRIPT_PATH/diskusage-monitor > $LATEST_MONITOR_PATH/err-log/diskusage-monitor-$HOSTNAME.err 2>&1 &
     PIDS="$PIDS $!"
     
     for IF in $(ls -1 /sys/class/net); do
         if [ "$IF" = "lo" ]; then continue; fi
-        nohup $SCRIPT_PATH/net-monitor $IF > $MONITOR_PATH/log/net-monitor-$HOSTNAME@$IF.err 2>&1 &
+        nohup $SCRIPT_PATH/net-monitor $IF > $LATEST_MONITOR_PATH/err-log/net-monitor-$HOSTNAME@$IF.err 2>&1 &
         PIDS="$PIDS $!"
     done
     
@@ -38,18 +52,23 @@ fi
 
 if [ "$1" = "serval" ]; then
     . $SCRIPT_PATH/serval-base
-    mkdir -p $MONITOR_PATH/log/
     
-    mkdir -p $MONITOR_PATH/$(date +%Y-%m-%d_%H-%M)
-    servald id self | tail -n 1 > $MONITOR_PATH/$(date +%Y-%m-%d_%H-%M)/$HOSTNAME.sid 2>&1
+    LATEST_MONITOR_PATH=`ls -td -- $MONITOR_PATH/*/ | grep 20 | head -n 1`
+    
+    mkdir -p $LATEST_MONITOR_PATH/err-log/
+    
+    mkdir -p $LATEST_MONITOR_PATH/meshms-general
+    mkdir -p $LATEST_MONITOR_PATH/rhizome-general
+    mkdir -p $LATEST_MONITOR_PATH/servald-general
+    servald id self | tail -n 1 > $LATEST_MONITOR_PATH/$HOSTNAME.sid 2>&1
 
-    nohup $SCRIPT_PATH/servald-monitor > $MONITOR_PATH/log/servald-monitor-$HOSTNAME.err 2>&1 &
+    nohup $SCRIPT_PATH/servald-monitor > $LATEST_MONITOR_PATH/err-log/servald-monitor-$HOSTNAME.err 2>&1 &
     PIDS="$PIDS $!"
 
-    nohup $SCRIPT_PATH/rhizome-monitor > $MONITOR_PATH/log/rhizome-monitor-$HOSTNAME.err 2>&1 &
+    nohup $SCRIPT_PATH/rhizome-monitor > $LATEST_MONITOR_PATH/err-log/rhizome-monitor-$HOSTNAME.err 2>&1 &
     PIDS="$PIDS $!"
 
-    nohup $SCRIPT_PATH/meshms-monitor > $MONITOR_PATH/log/meshms-monitor-$HOSTNAME.err 2>&1 &
+    nohup $SCRIPT_PATH/meshms-monitor > $LATEST_MONITOR_PATH/err-log/meshms-monitor-$HOSTNAME.err 2>&1 &
     PIDS="$PIDS $!"
 
     # sleep a second to allow processes to start
@@ -66,14 +85,20 @@ if [ "$1" = "stop" ]; then
     kill `cat $MONITOR_PATH/$HOSTNAME.pids`
     rm $MONITOR_PATH/$HOSTNAME.pids
     
-    # using latest monitoring path
     LATEST_MONITOR_PATH=`ls -td -- $MONITOR_PATH/*/ | grep 20 | head -n 1`
+    
+    # using latest monitoring path
     cp -R `servald config paths | grep SERVAL_LOG_PATH | cut -d ":" -f2` $LATEST_MONITOR_PATH/serval-logs-$HOSTNAME
     
-    $SCRIPT_PATH/rhizome-insertion-monitor > $MONITOR_PATH/log/rhizome-insertion-monitor-$HOSTNAME.err 2>&1
-    $SCRIPT_PATH/rhizome-direct-insertion-monitor > $MONITOR_PATH/log/rhizome-direct-insertion-monitor-$HOSTNAME.err 2>&1
-    $SCRIPT_PATH/meshms-insertion-monitor > $MONITOR_PATH/log/meshms-insertion-monitor-$HOSTNAME.err 2>&1
-    $SCRIPT_PATH/meshms-log-monitor > $MONITOR_PATH/log/meshms-log-monitor-$HOSTNAME.err 2>&1
+    mkdir -p $LATEST_MONITOR_PATH/meshms-insertion
+    mkdir -p $LATEST_MONITOR_PATH/meshms-insertion-general
+    mkdir -p $LATEST_MONITOR_PATH/rhizome-direct-insertion
+    mkdir -p $LATEST_MONITOR_PATH/rhizome-insertion
+    
+    $SCRIPT_PATH/rhizome-insertion-monitor > $LATEST_MONITOR_PATH/err-log/rhizome-insertion-monitor-$HOSTNAME.err 2>&1
+    $SCRIPT_PATH/rhizome-direct-insertion-monitor > $LATEST_MONITOR_PATH/err-log/rhizome-direct-insertion-monitor-$HOSTNAME.err 2>&1
+    $SCRIPT_PATH/meshms-insertion-monitor > $LATEST_MONITOR_PATH/err-log/meshms-insertion-monitor-$HOSTNAME.err 2>&1
+    $SCRIPT_PATH/meshms-insertion-general-monitor > $LATEST_MONITOR_PATH/err-log/meshms-insertion-general-monitor-$HOSTNAME.err 2>&1
     
     exit 0
 fi

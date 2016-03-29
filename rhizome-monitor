@@ -9,7 +9,7 @@ fi
 
 # using latest monitoring path
 MONITOR_PATH=`ls -td -- $MONITOR_PATH/*/ | grep 20 | head -n 1`
-OUTFILE="$MONITOR_PATH/rhizome-$(hostname).csv"
+OUTFILE=$(echo "$MONITOR_PATH/rhizome-general/rhizome-$(hostname).csv" | sed s#//*#/#g)
 
 echo "timestamp_ms,file_count,blobdir_size_k,db_size_k,files_size" > $OUTFILE
 

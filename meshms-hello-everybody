@@ -9,7 +9,7 @@ fi
 
 # using latest monitoring path
 MONITOR_PATH=`ls -td -- $MONITOR_PATH/*/ | grep 20 | head -n 1`
-OUTFILE="$MONITOR_PATH/meshms-hello-eveybody-proactive-$(hostname).csv"
+OUTFILE=$(echo "$MONITOR_PATH/active/meshms-hello-eveybody-active-$(hostname).csv" | sed s#//*#/#g)
 
 if ! [ -e $OUTFILE ]; then
 	echo "timestamp,sender,recipient" > $OUTFILE

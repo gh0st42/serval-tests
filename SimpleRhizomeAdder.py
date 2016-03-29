@@ -20,8 +20,8 @@ mySid = getSid()
 later = time.time() + timeout
 
 all_subdirs = ['/tmp/serval-monitor/' + d for d in os.listdir('/tmp/serval-monitor/') if os.path.isdir('/tmp/serval-monitor/' + d) and d.startswith('20')]
-monitor_path = max(all_subdirs, key=os.path.getctime) + '/'
-outfile = monitor_path + 'rhizome-proactive-' + socket.gethostname()
+monitor_path = max(all_subdirs, key=os.path.getctime)
+outfile = monitor_path + '/active/rhizome-active-' + socket.gethostname()
 
 f = open(outfile, 'w')
 f.write('timestamp,file\n')
