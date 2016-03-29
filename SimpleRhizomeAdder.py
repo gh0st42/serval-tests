@@ -9,6 +9,7 @@ parser.add_argument('-j', dest='delay_jitter_ms', default=1000, help='set maximu
 parser.add_argument('-s', dest='size_k', default=1024, help='size (KiB) of files to be inserted')
 parser.add_argument('-f', dest='file_count', default=-1, type=int, help='number of files to be sent')
 parser.add_argument('-t', dest='timeout', default=-1, type=int, help='stop after timout')
+parser.add_argument('-l', dest='log', action='store_true', help='file, where proactive logging happens')
 args = parser.parse_args()
 
 # adding parsed /default values to global dict 
@@ -17,6 +18,14 @@ random.seed(socket.gethostname())
 mySid = getSid()
 
 later = time.time() + timeout
+
+all_subdirs = ['/tmp/serval-monitor/' + d for d in os.listdir('/tmp/serval-monitor/') if os.path.isdir('/tmp/serval-monitor/' + d) and d.startswith('20')]
+monitor_path = max(all_subdirs, key=os.path.getctime) + '/'
+outfile = monitor_path + 'rhizome-proactive-' + socket.gethostname()
+
+f = open(outfile, 'w')
+f.write('timestamp,file\n')
+f.close
 
 if __name__ == "__main__":
     count = 0
@@ -31,6 +40,10 @@ if __name__ == "__main__":
         if timeout != -1 and later < time.time():
         	running = False
         	break
+        if log:
+        	f = open(outfile, 'a')
+        	f.write(str(int(time.time())) + ',' +  basename+"-"+str(size_k)+"k-"+str(count)+".bin" + '\n')
+        	f.close
         rhizomeRandomFile(basename+"-"+str(size_k)+"k-"+str(count)+".bin", size_k, mySid)
         count += 1
         insertion_delay_ms = min_delay_ms + random.randint(0, delay_jitter_ms)
