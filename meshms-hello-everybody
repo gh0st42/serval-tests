@@ -7,7 +7,19 @@ if [ "$1" = "-h" ]; then
     exit 0
 fi
 
+# using latest monitoring path
+MONITOR_PATH=`ls -td -- $MONITOR_PATH/*/ | grep 20 | head -n 1`
+OUTFILE="$MONITOR_PATH/meshms-hello-eveybody-proactive-$(hostname).csv"
+
+if ! [ -e $OUTFILE ]; then
+	echo "timestamp,sender,recipient" > $OUTFILE
+fi
+
 for their_sid in $(cat $SEVERAL_ALL_SIDS_FILE); do
+	if [ "$their_sid" = "$SID" ]; then
+		continue
+	fi
+	echo "`date +%s`,$SID,$their_sid" >> $OUTFILE
     echo "Sending MeshMS to $their_sid"
     servald meshms send message $SID $their_sid "hello"
 done
