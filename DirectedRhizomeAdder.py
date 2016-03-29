@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import hashlib, socket, time, argparse, signal, sys, random
+import hashlib, socket, time, argparse, signal, sys, random, os
 from Helpers import *
 
 parser = argparse.ArgumentParser(description='Periodically generate and add directed files into the serval rhizome store.')
@@ -8,6 +8,7 @@ parser.add_argument('-d', dest='min_delay_ms', default=0, help='set minimum inse
 parser.add_argument('-j', dest='delay_jitter_ms', default=1000, help='set maximum jitter (ms) for insertion delay')
 parser.add_argument('-s', dest='size_k', default=1024, help='size (KiB) of files to be inserted')
 parser.add_argument('-t', dest='timeout', default=-1, type=int, help='stop after timout')
+parser.add_argument('-l', dest='log', action='store_true', help='file, where proactive logging happens')
 args = parser.parse_args()
 
 # adding parsed /default values to global dict 
@@ -17,6 +18,14 @@ my_sid = getSid()
 neighbours = getNeightbourSids()
 
 later = time.time() + timeout
+
+all_subdirs = ['/tmp/serval-monitor/' + d for d in os.listdir('/tmp/serval-monitor/') if os.path.isdir('/tmp/serval-monitor/' + d) and d.startswith('20')]
+monitor_path = max(all_subdirs, key=os.path.getctime) + '/'
+outfile = monitor_path + 'rhizome-direceted-proactive-' + socket.gethostname()
+
+f = open(outfile, 'w')
+f.write('timestamp,sender,recipient,file\n')
+f.close
 
 if __name__ == "__main__":
     count = 0
@@ -30,6 +39,11 @@ if __name__ == "__main__":
 			running = False
 			break
         their_sid = random.choice(neighbours)
+        name = basename+"-"+str(size_k)+"k-"+str(count)+".bin"
+        if log:
+        	f = open(outfile, 'a')
+        	f.write(str(int(time.time())) + ',' + str(my_sid) + ',' + str(their_sid) + ',' + basename+"-"+str(size_k)+"k-"+str(count)+".bin" + '\n')
+        	f.close
         rhizomeRandomFile(basename+"-"+str(size_k)+"k-"+str(count)+".bin", size_k, my_sid, their_sid=their_sid)
         count += 1
         insertion_delay_ms = min_delay_ms + random.randint(0, delay_jitter_ms)
