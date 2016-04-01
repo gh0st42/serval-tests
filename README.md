@@ -27,7 +27,8 @@ The **monitor** script is able to start/stop all scripts as a daemons and takes 
 
 ```
 usage:
-  monitor start     start logging of serval, rhizome, meshms and netmon
+  monitor system    start logging of system related services (netmon, pidstat, ...)
+  monitor serval    start logging of serval related services (rhizome, meshms, ...)
   monitor stop      stop logging
   monitor help      show this help message
 ```
@@ -41,7 +42,10 @@ usage:
 
 ## Data manipulation
 * **meshms-hello-everybody** - sends a meshms to everybody in $SEVERAL\_ALL\_SIDS\_FILE
-* **rhizome-add-testfiles** - inserts all files at $1 or $TESTFILE\_PATH 
+* **rhizome-add-testfiles** - inserts all files at $1 or $TESTFILE\_PATH
+* **SimpleMeshUser.py** - send MeshMS messages periodically
+* **SimpleRhizomeAdder.py** - insert periodically files to rhizome store
+* **DirectRhizomeAdder.py** - send files periodically
 
 
 
