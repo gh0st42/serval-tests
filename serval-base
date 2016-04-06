@@ -12,7 +12,7 @@ SYSTEM_LOG_PATH=`servald config paths 2> /dev/null | grep SYSTEM_LOG_PATH | cut 
 #fi
 
 date_ms() {
-    date +%s%N | cut -b1-13
+    /usr/bin/date +%s%N | cut -b1-13
 }
 
 sleep_until_next_ms() {
