@@ -128,7 +128,7 @@ while True:
                total_cnt['tcp'] += 1
                cur_size['tcp'] += packet_size
                total_size['tcp'] += packet_size
-               if TCP.dport == 4110:
+               if TCP.dport == 4110 or TCP.sport == 4110:
                    cur_cnt['serval_tcp'] += 1
                    total_cnt['serval_tcp'] += 1
                    cur_size['serval_tcp'] += packet_size
@@ -140,7 +140,7 @@ while True:
                total_cnt['udp'] += 1
                cur_size['udp'] += packet_size
                total_size['udp'] += packet_size
-               if UDP.dport == 4110:
+               if UDP.dport == 4110 or UDP.sport == 4110:
                    cur_cnt['serval_udp'] += 1
                    total_cnt['serval_udp'] += 1
                    cur_size['serval_udp'] += packet_size
