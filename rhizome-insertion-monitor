@@ -13,4 +13,4 @@ MONITOR_PATH=`ls -td -- $MONITOR_PATH/*/ | grep 20 | head -n 1`
 OUTFILE=$(echo "$MONITOR_PATH/rhizome-insertion/rhizome-insertion-$(hostname).csv" | sed s#//*#/#g)
 
 echo "id,manifest,version,timestamp_ms,bar,filesize,filehash,author,service,name,sender,recipient,tail,manifest_hash" > $OUTFILE
-exec $SCRIPT_PATH/rhizome-insertion.py $SYSTEM_LOG_PATH/serval/ >> $OUTFILE
+exec $SCRIPT_PATH/rhizome-insertion.py $SYSTEM_LOG_PATH/log/ >> $OUTFILE

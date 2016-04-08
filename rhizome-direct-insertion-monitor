@@ -14,4 +14,4 @@ OUTFILE=$(echo "$MONITOR_PATH/rhizome-direct-insertion/rhizome-direct-insertion-
 
 echo "id,manifest,version,timestamp_ms,bar,filesize,filehash,author,service,name,sender,recipient,tail,manifest_hash" > $OUTFILE
 
-exec $SCRIPT_PATH/rhizome-direct-insertion.py $SYSTEM_LOG_PATH/serval/ >> $OUTFILE
+exec $SCRIPT_PATH/rhizome-direct-insertion.py $SYSTEM_LOG_PATH/log/ >> $OUTFILE

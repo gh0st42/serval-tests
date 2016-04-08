@@ -14,7 +14,7 @@ SERVAL_PID=$(cat $SERVAL_RUN_PATH/servald.pid)
 #fi
 
 date_ms() {
-    /usr/bin/date +%s%N | cut -b1-13
+    /usr/bin/date +%s%3N
 }
 
 sleep_until_next_ms() {
