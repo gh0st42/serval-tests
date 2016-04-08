@@ -1,6 +1,6 @@
 #!/bin/sh
 if [ -z $SCRIPT_PATH ]; then SCRIPT_PATH=$(dirname $0); fi
-. $SCRIPT_PATH/serval-vars
+. $SCRIPT_PATH/serval-base
 
 if [ "$1" = "-h" ]; then
     echo "writes a csv dump for servald pidstat properties to $MONITOR_PATH"
@@ -16,5 +16,5 @@ pidstat -druh -p ALL | sed '1d;/^$/d;s/#[ ]*Time/timestamp/g;s/^[ ]*//;s/[ ]\+/,
 while [ true ]; do
     sleep $SLEEP_TIME
     
-    pidstat -druh -p ALL -C "^servald$" | sed '1d;/^[#]/d;/^$/d;s/^[ ]*//;s/[ ]\+/,/g' >> $OUTFILE
+    pidstat -druh -p $SERVAL_PID | sed '1d;/^[#]/d;/^$/d;s/^[ ]*//;s/[ ]\+/,/g' >> $OUTFILE
 done

@@ -6,6 +6,8 @@ if [ -z $SCRIPT_PATH ]; then SCRIPT_PATH=$(dirname $0); fi
 RHIZOME_STORE_PATH=`servald config paths 2> /dev/null | tail -n-1 | cut -d":" -f2`
 SID=`servald id self 2> /dev/null | sed -n 3p `
 SYSTEM_LOG_PATH=`servald config paths 2> /dev/null | grep SYSTEM_LOG_PATH | cut -d ":" -f2`
+SERVAL_RUN_PATH=`servald config paths 2> /dev/null | grep SERVAL_RUN_PATH | cut -d ":" -f2`
+SERVAL_PID=$(cat $SERVAL_RUN_PATH/servald.pid)
 
 #if ! [ -e SEVERAL_ALL_SIDS_FILE ]; then
 #    servald id allpeers 2> /dev/null | tail -n+3 > $SEVERAL_ALL_SIDS_FILE
