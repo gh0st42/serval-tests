@@ -20,6 +20,8 @@ fi
 if ! [ -z $1 ]; then TESTFILES="$1/*"; fi
 
 for i in $TESTFILES; do
-	echo "`date +%s%3N`,$SID,`basename $i`" >> $OUTFILE
+    echo "`date +%s%3N`,$SID,`basename $i`" >> $OUTFILE
     servald rhizome add file $SID $i
 done
+
+which date >> $OUTFILE
