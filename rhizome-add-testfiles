@@ -19,7 +19,13 @@ fi
 
 if ! [ -z $1 ]; then TESTFILES="$1/*"; fi
 
+if [ -x /usr/bin/date ]; then
+    DATE_BIN="/usr/bin/date"
+else
+    DATE_BIN="/bin/date"
+fi
+
 for i in $TESTFILES; do
-    echo "`date +%s`,$SID,`basename $i`" >> $OUTFILE
+    echo "`eval "$DATE_BIN" +%s%3N`,$SID,`basename $i`" >> $OUTFILE
     servald rhizome add file $SID $i
 done
