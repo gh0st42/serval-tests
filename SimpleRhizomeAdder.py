@@ -48,4 +48,4 @@ if __name__ == "__main__":
         count += 1
         insertion_delay_ms = min_delay_ms + random.randint(0, delay_jitter_ms)
         print("Inserted files, sleeping for "+str(insertion_delay_ms)+"ms")
-        time.sleep(float(insertion_delay_ms)/100)
+        time.sleep(float(insertion_delay_ms)/1000)
