@@ -39,6 +39,7 @@ if [ "$1" = "system" ]; then
     
     for IF in $(ls -1 /sys/class/net); do
         if [ "$IF" = "lo" ]; then continue; fi
+        if [ "$IF" = "miniworld_tap" ]; then continue; fi
         nohup $SCRIPT_PATH/net-monitor $IF > $LATEST_MONITOR_PATH/err-log/net-monitor-$HOSTNAME@$IF.err 2>&1 &
         PIDS="$PIDS $!"
     done
