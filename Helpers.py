@@ -2,6 +2,7 @@
 import hashlib, subprocess, os, binascii, sys, random
 
 SERVALD_BIN = "servald"
+RANDOM_FILES_FOLDER = "/root/tmp/"
 
 F1 = [64, 256, 512]
 F2 = [1000, 5000, 10000]
@@ -17,20 +18,21 @@ def getNeightbourSids():
 		return filter(lambda x: x != getSid(), map(lambda x: x.replace('\n', ''), sid_file.readlines()))
 
 def rhizomeRandomFile(name, size_k, sid, their_sid=None):
+    os.mkdir(RANDOM_FILES_FOLDER, 0755)
 	if size_k == 'f1':
 		size_k = random.choice(F1)
-		filepath = "/tmp/"+name.replace('f1', str(size_k))
+		filepath = RANDOM_FILES_FOLDER+name.replace('f1', str(size_k))
 	elif size_k == 'f2':
 		size_k = random.choice(F2)
-		filepath = "/tmp/"+name.replace('f2', str(size_k))
+		filepath = RANDOM_FILES_FOLDER+name.replace('f2', str(size_k))
 	elif size_k == 'f3':
 		size_k = random.choice(F3)
-		filepath = "/tmp/"+name.replace('f3', str(size_k))
+		filepath = RANDOM_FILES_FOLDER+name.replace('f3', str(size_k))
 	elif size_k == 'f4':
 		size_k = random.choice(F4)
-		filepath = "/tmp/"+name.replace('f4', str(size_k))
+		filepath = RANDOM_FILES_FOLDER+name.replace('f4', str(size_k))
 	else:
-		filepath = "/tmp/"+name
+		filepath = RANDOM_FILES_FOLDER+name
 	
 	with open(filepath, 'wb') as f:
 		# write 1k random data
