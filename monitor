@@ -29,10 +29,6 @@ if [ "$1" = "system" ]; then
     mkdir -p $LATEST_MONITOR_PATH/err-log/
     mkdir -p $LATEST_MONITOR_PATH/netmon
     mkdir -p $LATEST_MONITOR_PATH/pidstat
-    mkdir -p $LATEST_MONITOR_PATH/diskusage
-    
-    nohup $SCRIPT_PATH/pidstat-monitor > $LATEST_MONITOR_PATH/err-log/pidstat-monitor-$HOSTNAME.err 2>&1 &
-    PIDS="$PIDS $!"
         
     nohup $SCRIPT_PATH/diskusage-monitor > $LATEST_MONITOR_PATH/err-log/diskusage-monitor-$HOSTNAME.err 2>&1 &
     PIDS="$PIDS $!"
@@ -57,10 +53,12 @@ if [ "$1" = "serval" ]; then
     LATEST_MONITOR_PATH=`ls -td -- $MONITOR_PATH/*/ | grep 20 | head -n 1`
     
     mkdir -p $LATEST_MONITOR_PATH/err-log/
-    
-    mkdir -p $LATEST_MONITOR_PATH/meshms-general
-    mkdir -p $LATEST_MONITOR_PATH/rhizome-general
+
     mkdir -p $LATEST_MONITOR_PATH/servald-general
+    mkdir -p $LATEST_MONITOR_PATH/rhizome-general
+    mkdir -p $LATEST_MONITOR_PATH/meshms-general
+    mkdir -p $LATEST_MONITOR_PATH/diskusage
+    
     servald id self | tail -n 1 > $LATEST_MONITOR_PATH/$HOSTNAME.sid 2>&1
 
     nohup $SCRIPT_PATH/servald-monitor > $LATEST_MONITOR_PATH/err-log/servald-monitor-$HOSTNAME.err 2>&1 &
@@ -70,6 +68,9 @@ if [ "$1" = "serval" ]; then
     PIDS="$PIDS $!"
 
     nohup $SCRIPT_PATH/meshms-monitor > $LATEST_MONITOR_PATH/err-log/meshms-monitor-$HOSTNAME.err 2>&1 &
+    PIDS="$PIDS $!"
+    
+    nohup $SCRIPT_PATH/pidstat-monitor > $LATEST_MONITOR_PATH/err-log/pidstat-monitor-$HOSTNAME.err 2>&1 &
     PIDS="$PIDS $!"
 
     # sleep a second to allow processes to start
