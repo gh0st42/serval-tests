@@ -18,7 +18,7 @@ def getNeightbourSids():
 		return filter(lambda x: x != getSid(), map(lambda x: x.replace('\n', ''), sid_file.readlines()))
 
 def rhizomeRandomFile(name, size_k, sid, their_sid=None):
-    if not os.path.exists(RANDOM_FILES_FOLDER): os.mkdir(RANDOM_FILES_FOLDER, 0755)
+	if not os.path.exists(RANDOM_FILES_FOLDER): os.mkdir(RANDOM_FILES_FOLDER, 0755)
 	if size_k == 'f1':
 		size_k = random.choice(F1)
 		filepath = RANDOM_FILES_FOLDER+name.replace('f1', str(size_k))
