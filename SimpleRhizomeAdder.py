@@ -24,7 +24,7 @@ monitor_path = max(all_subdirs, key=os.path.getctime)
 outfile = monitor_path + '/active/rhizome-active-' + socket.gethostname() + '.csv'
 
 f = open(outfile, 'w')
-f.write('timestamp,file\n')
+f.write('timestamp,sender,file\n')
 f.close
 
 if __name__ == "__main__":
@@ -43,7 +43,7 @@ if __name__ == "__main__":
         size_str = rhizomeRandomFile(basename+"-"+str(size_k)+"k-"+str(count)+".bin", size_k, mySid)
 	if log:
                 f = open(outfile, 'a')
-                f.write(str(int(time.time())) + ',' +  basename+"-"+str(size_str)+"k-"+str(count)+".bin" + '\n')
+                f.write(str(int(time.time())) + ',' str(my_sid) + ',' + basename+"-"+str(size_str)+"k-"+str(count)+".bin" + '\n')
                 f.close
         count += 1
         insertion_delay_ms = min_delay_ms + random.randint(0, delay_jitter_ms)
