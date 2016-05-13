@@ -21,5 +21,5 @@ for their_sid in $(cat $SEVERAL_ALL_SIDS_FILE); do
 	fi
 	echo "`date +%s`,$SID,$their_sid" >> $OUTFILE
     echo "Sending MeshMS to $their_sid"
-    servald meshms send message $SID $their_sid "hello"
+    servald meshms send message $SID $their_sid "hello world $(date +%s)"
 done
