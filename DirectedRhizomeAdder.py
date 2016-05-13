@@ -4,8 +4,8 @@ import hashlib, socket, time, argparse, signal, sys, random, os
 from Helpers import *
 
 parser = argparse.ArgumentParser(description='Periodically generate and add directed files into the serval rhizome store.')
-parser.add_argument('-d', dest='min_delay_ms', default=0, help='set minimum insertion delay (ms)')
-parser.add_argument('-j', dest='delay_jitter_ms', default=1000, help='set maximum jitter (ms) for insertion delay')
+parser.add_argument('-d', dest='min_delay_ms', default=10000, help='set minimum insertion delay (ms)')
+parser.add_argument('-j', dest='delay_jitter_ms', default=10000, help='set maximum jitter (ms) for insertion delay')
 parser.add_argument('-s', dest='size_k', default=1024, help='size (KiB) of files to be inserted')
 parser.add_argument('-t', dest='timeout', default=-1, type=int, help='stop after timout')
 parser.add_argument('-l', dest='log', action='store_true', help='file, where proactive logging happens')
@@ -47,4 +47,4 @@ if __name__ == "__main__":
         count += 1
         insertion_delay_ms = min_delay_ms + random.randint(0, delay_jitter_ms)
         print("Inserted files to "+their_sid+", sleeping for "+str(insertion_delay_ms)+"ms")
-        time.sleep(float(insertion_delay_ms)/100)
+        time.sleep(float(insertion_delay_ms)/1000)
