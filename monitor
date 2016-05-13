@@ -26,21 +26,6 @@ if [ "$1" = "system" ]; then
 
     mkdir -p $LATEST_MONITOR_PATH/active
 
-    mkdir -p $LATEST_MONITOR_PATH/err-log/
-#    mkdir -p $LATEST_MONITOR_PATH/netmon
-    mkdir -p $LATEST_MONITOR_PATH/pidstat
-    mkdir -p $LATEST_MONITOR_PATH/diskusage
-
-    nohup $SCRIPT_PATH/diskusage-monitor > $LATEST_MONITOR_PATH/err-log/diskusage-monitor-$HOSTNAME.err 2>&1 &
-    PIDS="$PIDS $!"
-
-#    for IF in $(ls -1 /sys/class/net); do
-#        if [ "$IF" = "lo" ]; then continue; fi
-#        if [ "$IF" = "miniworld_tap" ]; then continue; fi
-#        nohup $SCRIPT_PATH/net-monitor $IF > $LATEST_MONITOR_PATH/err-log/net-monitor-$HOSTNAME@$IF.err 2>&1 &
-#        PIDS="$PIDS $!"
-#    done
-
     # sleep a second to allow processes to start
     # sleep 1
 
@@ -58,6 +43,8 @@ if [ "$1" = "serval" ]; then
     mkdir -p $LATEST_MONITOR_PATH/servald-general
     mkdir -p $LATEST_MONITOR_PATH/rhizome-general
     mkdir -p $LATEST_MONITOR_PATH/meshms-general
+    mkdir -p $LATEST_MONITOR_PATH/pidstat
+    mkdir -p $LATEST_MONITOR_PATH/diskusage
 
     servald id self | tail -n 1 > $LATEST_MONITOR_PATH/$HOSTNAME.sid 2>&1
 
@@ -71,6 +58,9 @@ if [ "$1" = "serval" ]; then
     PIDS="$PIDS $!"
 
     nohup $SCRIPT_PATH/pidstat-monitor > $LATEST_MONITOR_PATH/err-log/pidstat-monitor-$HOSTNAME.err 2>&1 &
+    PIDS="$PIDS $!"
+
+    nohup $SCRIPT_PATH/diskusage-monitor > $LATEST_MONITOR_PATH/err-log/diskusage-monitor-$HOSTNAME.err 2>&1 &
     PIDS="$PIDS $!"
 
     # sleep a second to allow processes to start
