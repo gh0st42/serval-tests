@@ -40,11 +40,11 @@ if __name__ == "__main__":
         if timeout != -1 and later < time.time():
         	running = False
         	break
-        if log:
-        	f = open(outfile, 'a')
-        	f.write(str(int(time.time())) + ',' +  basename+"-"+str(size_k)+"k-"+str(count)+".bin" + '\n')
-        	f.close
-        rhizomeRandomFile(basename+"-"+str(size_k)+"k-"+str(count)+".bin", size_k, mySid)
+        size_str = rhizomeRandomFile(basename+"-"+str(size_k)+"k-"+str(count)+".bin", size_k, mySid)
+	if log:
+                f = open(outfile, 'a')
+                f.write(str(int(time.time())) + ',' +  basename+"-"+str(size_str)+"k-"+str(count)+".bin" + '\n')
+                f.close
         count += 1
         insertion_delay_ms = min_delay_ms + random.randint(0, delay_jitter_ms)
         print("Inserted files, sleeping for "+str(insertion_delay_ms)+"ms")

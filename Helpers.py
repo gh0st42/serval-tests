@@ -46,6 +46,7 @@ def rhizomeRandomFile(name, size_k, sid, their_sid=None):
 	if their_sid: commmand.append("recipient="+their_sid)
 	subprocess.call(commmand)
 	os.remove(filepath)
+	return size_k
 
 def randomMeshMS(my_sid, their_sid, messsage):
     subprocess.call([SERVALD_BIN, "meshms", "send", "message", my_sid, their_sid, messsage])

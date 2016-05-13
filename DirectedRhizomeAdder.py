@@ -39,12 +39,11 @@ if __name__ == "__main__":
 			running = False
 			break
         their_sid = random.choice(neighbours)
-        name = basename+"-"+str(size_k)+"k-"+str(count)+".bin"
+        size_str = rhizomeRandomFile(basename+"-"+str(size_k)+"k-"+str(count)+".bin", size_k, mySid, their_sid=their_sid)
         if log:
-        	f = open(outfile, 'a')
-        	f.write(str(int(time.time())) + ',' + str(my_sid) + ',' + str(their_sid) + ',' + basename+"-"+str(size_k)+"k-"+str(count)+".bin" + '\n')
-        	f.close
-        rhizomeRandomFile(basename+"-"+str(size_k)+"k-"+str(count)+".bin", size_k, my_sid, their_sid=their_sid)
+                f = open(outfile, 'a')
+		f.write(str(int(time.time())) + ',' + str(my_sid) + ',' + str(their_sid) + ',' + basename+"-"+str(size_str)+"k-"+str(count)+".bin" + '\n')
+                f.close
         count += 1
         insertion_delay_ms = min_delay_ms + random.randint(0, delay_jitter_ms)
         print("Inserted files to "+their_sid+", sleeping for "+str(insertion_delay_ms)+"ms")
