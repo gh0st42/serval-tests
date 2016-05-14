@@ -39,7 +39,7 @@ if __name__ == "__main__":
 			running = False
 			break
         their_sid = random.choice(neighbours)
-        size_str = rhizomeRandomFile(basename+"-"+str(size_k)+"k-"+str(count)+".bin", size_k, mySid, their_sid=their_sid)
+        size_str = rhizomeRandomFile(basename+"-"+str(size_k)+"k-"+str(count)+".bin", size_k, my_sid, their_sid=their_sid)
         if log:
                 f = open(outfile, 'a')
 		f.write(str(int(time.time())) + ',' + str(my_sid) + ',' + str(their_sid) + ',' + basename+"-"+str(size_str)+"k-"+str(count)+".bin" + '\n')
