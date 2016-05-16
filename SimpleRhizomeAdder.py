@@ -43,7 +43,7 @@ if __name__ == "__main__":
         size_str = rhizomeRandomFile(basename+"-"+str(size_k)+"k-"+str(count)+".bin", size_k, mySid)
 	if log:
                 f = open(outfile, 'a')
-                f.write(str(int(time.time())) + ',' + str(mySid) + ',' + basename+"-"+str(size_str)+"k-"+str(count)+".bin" + '\n')
+                f.write(str(int(round(time.time() * 1000))) + ',' + str(mySid) + ',' + basename+"-"+str(size_str)+"k-"+str(count)+".bin" + '\n')
                 f.close
         count += 1
         insertion_delay_ms = min_delay_ms + random.randint(0, delay_jitter_ms)

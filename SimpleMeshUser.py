@@ -41,7 +41,7 @@ if __name__ == "__main__":
 		message = binascii.b2a_hex(os.urandom(size_b/2)) + " " + str(int(time.time()))
         if log:
         	f = open(outfile, 'a')
-        	f.write(str(int(time.time())) + ',' + str(my_sid) + ',' + str(their_sid) + ',' + message + '\n')
+        	f.write(str(int(round(time.time() * 1000))) + ',' + str(my_sid) + ',' + str(their_sid) + ',' + message + '\n')
         	f.close
 		randomMeshMS(my_sid, their_sid, message)
 		count += 1
