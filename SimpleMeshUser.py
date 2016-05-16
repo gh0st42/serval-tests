@@ -6,7 +6,7 @@ from Helpers import *
 parser = argparse.ArgumentParser(description='Periodically generate and send messages to neighbourly serval peers')
 parser.add_argument('-d', dest='min_delay_ms', default=10000, help='set minimum insertion delay (ms)')
 parser.add_argument('-j', dest='delay_jitter_ms', default=10000, help='set maximum jitter (ms) for insertion delay')
-parser.add_argument('-s', dest='size_b', default=64, help='size (Byte) of files to be inserted')
+parser.add_argument('-s', dest='size_b', default=42, help='size (Byte) of files to be inserted')
 parser.add_argument('-t', dest='timeout', default=-1, type=int, help='stop after timout')
 parser.add_argument('-l', dest='log', action='store_true', help='file, where proactive logging happens')
 args = parser.parse_args()
@@ -38,7 +38,7 @@ if __name__ == "__main__":
 			running = False
 			break
 		their_sid = random.choice(neighbours)
-		message = binascii.b2a_hex(os.urandom(size_b/2))
+		message = binascii.b2a_hex(os.urandom(size_b/2)) + " " + str(int(time.time()))
         if log:
         	f = open(outfile, 'a')
         	f.write(str(int(time.time())) + ',' + str(my_sid) + ',' + str(their_sid) + ',' + message + '\n')
