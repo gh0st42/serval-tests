@@ -1,0 +1,8 @@
+#!/bin/sh
+
+curl --silent --fail --show-error --output sendmessage.json \
+	--basic --user harry:potter \
+	--form "message=$3;type=text/plain;charset=utf-8" \
+	"http://127.0.0.1:4110/restful/meshms/$1/$2/sendmessage"
+
+
