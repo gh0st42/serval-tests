@@ -4,4 +4,4 @@ curl --silent --fail --show-error \
          --output bundlelist.json \
          --dump-header http.headers \
          --basic --user harry:potter \
-         "http://$addr_localhost:$PORTA/restful/rhizome/bundlelist.json"
+         "http://127.0.0.1:4110/restful/rhizome/bundlelist.json"
