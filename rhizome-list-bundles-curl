@@ -1,0 +1,7 @@
+#! /bin/bash
+
+curl --silent --fail --show-error \
+         --output bundlelist.json \
+         --dump-header http.headers \
+         --basic --user harry:potter \
+         "http://$addr_localhost:$PORTA/restful/rhizome/bundlelist.json"
