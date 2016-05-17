@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [ $# != 2 ]; then
+	echo "USAGE: $0 <num_msg> <recipient>"
+	exit 1
+fi
+
+MYSID=$(servald id self | tail -n1)
+for (( i=0; i<$1; i++ ))
+do
+   	echo "$i"
+	TIMESTAMP=$(date +%s%N)
+	msg="0123456789012345678901234567890123456789 $TIMESTAMP"
+#	echo $msg
+	servald meshms send message $MYSID $2 "$msg"
+	
+done
