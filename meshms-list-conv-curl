@@ -1,0 +1,7 @@
+#!/bin/sh
+
+curl --silent --fail --show-error \
+         --output conversationlist1.json \
+         --dump-header http.headers \
+         --basic --user harry:potter \
+         "http://127.0.0.1:4110/restful/meshms/$1/conversationlist.json"
