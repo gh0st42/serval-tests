@@ -16,10 +16,10 @@ if ! [ -e $OUTFILE ]; then
 fi
 
 for their_sid in $(cat $SEVERAL_ALL_SIDS_FILE); do
-	if [ "$their_sid" = "$SID" ]; then
-		continue
-	fi
-	echo "`date +%s`,$SID,$their_sid" >> $OUTFILE
+    if [ "$their_sid" = "$SID" ]; then
+	continue
+    fi
+    echo "`date +%s`,$SID,$their_sid" >> $OUTFILE
     echo "Sending MeshMS to $their_sid"
     servald meshms send message $SID $their_sid "Convinced myself, I seek not to convince. $(date +%s)"
 done
