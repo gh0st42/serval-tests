@@ -49,4 +49,4 @@ def rhizomeRandomFile(name, size_k, sid, their_sid=None):
 	return size_k
 
 def randomMeshMS(my_sid, their_sid, messsage):
-    subprocess.call([SERVALD_BIN, "meshms", "send", "message", my_sid, their_sid, messsage])
+    subprocess.call(["meshms-send-curl", my_sid, their_sid, messsage])
