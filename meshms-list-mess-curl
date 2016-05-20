@@ -1,7 +1,5 @@
 #!/bin/sh
 curl -H "Expect:" \
 	 --silent --fail --show-error \
-     --output messagelist.json \
-     --dump-header http.headers \
      --basic --user harry:potter \
      "http://127.0.0.1:4110/restful/meshms/$1/$2/messagelist.json"
