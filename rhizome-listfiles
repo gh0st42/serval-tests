@@ -4,6 +4,4 @@ if [ "$1" = "-h" ]; then
     exit 0
 fi
 
-echo Total files in Rhizome Store: $(servald rhizome list | grep ":file": | wc -l)
-echo
-servald rhizome list | grep ":file": | cut -d":" -f 13
+echo Total files in Rhizome Store: $(/serval-tests/rhizome-list-bundles-curl | /serval-tests/jsawk | grep '\["rows",[0-9]*\]' | grep -v MeshMS2 | wc -l)
