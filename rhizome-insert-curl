@@ -1,8 +1,13 @@
 #! /bin/bash
 
+manifest_file="/tmp/`hostname`.man"
+touch $manifest_file
+
 curl -H "Expect:" \
      --silent --show-error \
      --basic --user harry:potter \
-     --form "manifest=@$1;type=rhizome/manifest;format=\"text+binarysig\"" \
+     --form "manifest=@$manifest_file;type=rhizome/manifest;format=\"text+binarysig\"" \
      --form "payload=@$2;filename=\"$2\"}" \
      "http://127.0.0.1:4110/restful/rhizome/insert"
+     
+rm $manifest_file
