@@ -27,5 +27,7 @@ fi
 
 for i in $TESTFILES; do
     echo "`eval "$DATE_BIN" +%s%3N`,$SID,`basename $i`" >> $OUTFILE
-    servald rhizome add file $SID $i
+    touch /tmp/`hostname`_$i.man
+    /serval-tests/rhizome-insert-curl /tmp/`hostname`_$i.man $i
+    rm /tmp/`hostname`_$i.man
 done
