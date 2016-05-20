@@ -2,4 +2,4 @@
 if [ -z $SCRIPT_PATH ]; then SCRIPT_PATH=$(dirname $0); fi
 . $SCRIPT_PATH/serval-base
 
-echo Number of meshms conversations: $(servald meshms list conversations $SID | tail -n+3 | wc -l)
+echo Number of meshms conversations: $(/serval-tests/meshms-list-conv-curl $SID | grep '\["rows",[0-9]*\]' | wc -l)
