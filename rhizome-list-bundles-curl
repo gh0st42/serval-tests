@@ -1,7 +1,8 @@
 #! /bin/bash
 
-curl --silent --fail --show-error \
-         --output bundlelist.json \
-         --dump-header http.headers \
-         --basic --user harry:potter \
-         "http://127.0.0.1:4110/restful/rhizome/bundlelist.json"
+curl -H "Expect:" \
+	 --silent --fail --show-error \
+     --output bundlelist.json \
+     --dump-header http.headers \
+     --basic --user harry:potter \
+     "http://127.0.0.1:4110/restful/rhizome/bundlelist.json"
