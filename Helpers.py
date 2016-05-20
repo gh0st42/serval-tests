@@ -44,8 +44,8 @@ def rhizomeRandomFile(name, size_k, sid, their_sid=None):
 	
 	if their_sid:
 		commmand = [SERVALD_BIN, "rhizome", "add", "file", sid, filepath, "/dev/null", "", "sender="+sid, "recipient="+their_sid]
-    else:
-		commmand = ["/serval-tests/rhizome-insert-curl", filepath,]
+	else:
+		commmand = ["/serval-tests/rhizome-insert-curl", filepath]
 	subprocess.call(commmand)
 	os.remove(filepath)
 	return size_k
