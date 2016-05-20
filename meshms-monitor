@@ -18,7 +18,7 @@ while [ true ]; do
     sleep $SLEEP_TIME
     
     NOW=$(date_ms)
-    MY_COUNT=$(( $(servald meshms list conversations $SID | wc -l) -2 ))
+    MY_COUNT=$(( $(/serval-tests/meshms-list-conv-curl $SID | /serval-tests/jsawk | grep '\["rows",[0-9]*\]' | wc -l) -2 ))
     # TOTAL_COUNT=$(echo 'select count(MANIFESTS.filesize) from MANIFESTS where MANIFESTS.service = "MeshMS2";' | sqlite3 $RHIZOME_STORE_PATH/rhizome.db)
     # MESHMS_BYTES=$(echo 'select total(MANIFESTS.filesize) from MANIFESTS where MANIFESTS.service = "MeshMS2";' | sqlite3 $RHIZOME_STORE_PATH/rhizome.db)
     
