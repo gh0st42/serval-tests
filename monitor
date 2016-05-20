@@ -80,7 +80,8 @@ if [ "$1" = "stop" ]; then
     LATEST_MONITOR_PATH=`ls -td -- $MONITOR_PATH/*/ | grep 20 | head -n 1`
 
     # using latest monitoring path
-    cp -R `servald config paths | grep SERVAL_LOG_PATH | cut -d ":" -f2` $LATEST_MONITOR_PATH/serval-logs-$HOSTNAME
+    mkdir -p $LATEST_MONITOR_PATH/serval-logs/
+    cp -R `servald config paths | grep SERVAL_LOG_PATH | cut -d ":" -f2` $LATEST_MONITOR_PATH/serval-logs/$HOSTNAME
 
     mkdir -p $LATEST_MONITOR_PATH/meshms-insertion
     mkdir -p $LATEST_MONITOR_PATH/meshms-insertion-general
