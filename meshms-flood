@@ -12,6 +12,7 @@ do
 	TIMESTAMP=$(date +%s%N)
 	msg="0123456789012345678901234567890123456789 $TIMESTAMP"
 #	echo $msg
-	servald meshms send message $MYSID $2 "$msg"
+	cur_dir=`dirname $0`
+	$cur_dir/meshms-send-curl $MYSID $2 "$msg"
 	
 done
