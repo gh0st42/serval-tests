@@ -43,7 +43,7 @@ def rhizomeRandomFile(name, size_k, sid, their_sid=None):
 	print sid, filepath, their_sid
 	
 	if their_sid:
-		commmand = [SERVALD_BIN, "rhizome", "add", "file", sid, filepath, "/dev/null", "", "sender="+sid, "recipient="+their_sid]
+		commmand = ["/serval-tests/rhizome-insert-direct-curl", filepath, sid, their_sid]
 	else:
 		commmand = ["/serval-tests/rhizome-insert-curl", filepath]
 	subprocess.call(commmand)
