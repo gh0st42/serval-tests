@@ -1,6 +1,8 @@
 #!/bin/sh
 
+SID=$1
+
 curl -H "Expect:" \
 	 --silent --fail --show-error \
      --basic --user harry:potter \
-     "http://127.0.0.1:4110/restful/meshms/$1/conversationlist.json"
+     "http://127.0.0.1:4110/restful/meshms/$SID/conversationlist.json"

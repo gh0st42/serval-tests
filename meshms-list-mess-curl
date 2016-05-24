@@ -1,5 +1,9 @@
 #!/bin/sh
+
+SENDER=$1
+RECIPIENT=$2
+
 curl -H "Expect:" \
 	 --silent --fail --show-error \
      --basic --user harry:potter \
-     "http://127.0.0.1:4110/restful/meshms/$1/$2/messagelist.json"
+     "http://127.0.0.1:4110/restful/meshms/$SENDER/$RECIPIENT/messagelist.json"
