@@ -21,5 +21,5 @@ for their_sid in $(cat $SEVERAL_ALL_SIDS_FILE); do
     fi
     echo "`date +%s`,$SID,$their_sid" >> $OUTFILE
     echo "Sending MeshMS to $their_sid"
-    /serval-tests/meshms-send-curl $SID $their_sid "Convinced myself, I seek not to convince. $(date +%s)"
+    /serval-tests/meshms-send-curl $SID $their_sid "Convinced myself- I seek not to convince. $(date +%s)"
 done
