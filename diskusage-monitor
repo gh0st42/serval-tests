@@ -17,5 +17,5 @@ echo "timestamp,filesystem,size,used,available,use%,mounted" > $OUTFILE
 while [ true ]; do
     sleep $SLEEP_TIME
 
-    df -hP | awk '{if(NR>1)print systime()","$1","$2","$3","$4","$5","$6}' >> $OUTFILE
+    df -P | awk '{if(NR>1)print systime()","$1","$2","$3","$4","$5","$6}' >> $OUTFILE
 done
