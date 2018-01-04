@@ -28,6 +28,7 @@ if [ "$1" = "system" ]; then
     mkdir -p $LATEST_MONITOR_PATH/active
     mkdir -p $LATEST_MONITOR_PATH/pidstat
     mkdir -p $LATEST_MONITOR_PATH/diskusage
+    mkdir -p $LATEST_MONITOR_PATH/err-log/
 
     # sleep a second to allow processes to start
     # sleep 1
