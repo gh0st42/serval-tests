@@ -27,7 +27,8 @@ if [ "$1" = "system" ]; then
 
     mkdir -p $LATEST_MONITOR_PATH/active
     mkdir -p $LATEST_MONITOR_PATH/pidstat
-    mkdir -p $LATEST_MONITOR_PATH/diskusage
+    #mkdir -p $LATEST_MONITOR_PATH/diskusage
+    mkdir -p $LATEST_MONITOR_PATH/net
     mkdir -p $LATEST_MONITOR_PATH/err-log/
 
     # sleep a second to allow processes to start
@@ -37,7 +38,10 @@ if [ "$1" = "system" ]; then
     nohup $SCRIPT_PATH/pidstat-monitor > $LATEST_MONITOR_PATH/err-log/pidstat-monitor-$HOSTNAME.err 2>&1 &
     PIDS="$PIDS $!"
 
-    nohup $SCRIPT_PATH/diskusage-monitor > $LATEST_MONITOR_PATH/err-log/diskusage-monitor-$HOSTNAME.err 2>&1 &
+    #nohup $SCRIPT_PATH/diskusage-monitor > $LATEST_MONITOR_PATH/err-log/diskusage-monitor-$HOSTNAME.err 2>&1 &
+    #PIDS="$PIDS $!"
+
+    nohup $SCRIPT_PATH/net-monitor > $LATEST_MONITOR_PATH/err-log/net-monitor-$HOSTNAME.err 2>&1 &
     PIDS="$PIDS $!"
 
     echo -n " $PIDS" >> $MONITOR_PATH/$HOSTNAME.pids
