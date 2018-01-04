@@ -7,7 +7,7 @@ if [ "$1" = "-h" ]; then
     exit 0
 fi
 
-$PIDS=$(cat $SCRIPT_PATH/../pids)
+$PIDS=$(cat ../RequestModel/pids)
 
 # using latest monitoring path
 MONITOR_PATH=`ls -td -- $MONITOR_PATH/*/ | grep 20 | head -n 1`
