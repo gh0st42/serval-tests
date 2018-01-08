@@ -19,6 +19,44 @@ HOSTNAME=$(hostname)
 
 LATEST_MONITOR_PATH=`ls -td -- $MONITOR_PATH/*/ | grep 20 | head -n 1` 2> /dev/null
 
+
+if [ "$1" = "process" ]; then
+    DIR_TIME=$(date +%Y-%m-%d_%H-%M)
+    mkdir -p $MONITOR_PATH/$DIR_TIME
+    LATEST_MONITOR_PATH=`ls -td -- $MONITOR_PATH/*/ | grep 20 | head -n 1`
+
+    mkdir -p $LATEST_MONITOR_PATH/active
+    mkdir -p $LATEST_MONITOR_PATH/pidstat
+    mkdir -p $LATEST_MONITOR_PATH/err-log/
+
+
+    nohup $SCRIPT_PATH/pidstat-monitor > $LATEST_MONITOR_PATH/err-log/pidstat-monitor-$HOSTNAME.err 2>&1 &
+    PIDS="$PIDS $!"
+
+    echo -n " $PIDS" >> $MONITOR_PATH/$HOSTNAME.pids
+    exit 0
+fi
+
+if [ "$1" = "network" ]; then
+    DIR_TIME=$(date +%Y-%m-%d_%H-%M)
+    mkdir -p $MONITOR_PATH/$DIR_TIME
+    LATEST_MONITOR_PATH=`ls -td -- $MONITOR_PATH/*/ | grep 20 | head -n 1`
+
+    mkdir -p $LATEST_MONITOR_PATH/active
+    mkdir -p $LATEST_MONITOR_PATH/net
+    mkdir -p $LATEST_MONITOR_PATH/err-log/
+
+
+    nohup $SCRIPT_PATH/net-monitor $HOSTNAME-wlan0 > $LATEST_MONITOR_PATH/err-log/net-monitor-$HOSTNAME.err 2>&1 &
+    PIDS="$PIDS $!"
+
+    echo -n " $PIDS" >> $MONITOR_PATH/$HOSTNAME.pids
+    exit 0
+fi
+
+
+
+
 if [ "$1" = "system" ]; then
     echo "MONITOR_PATH:" $MONITOR_PATH
     DIR_TIME=$(date +%Y-%m-%d_%H-%M)

@@ -7,18 +7,17 @@ if [ "$1" = "-h" ]; then
     exit 0
 fi
 
-PIDS=$(cat ../RequestModel/pids)
+PIDS=$(cat ../RequestModel/pids | sed 's/\r$/ /g')
 
 # using latest monitoring path
 MONITOR_PATH=`ls -td -- $MONITOR_PATH/*/ | grep 20 | head -n 1`
 OUTFILE=$(echo "$MONITOR_PATH/pidstat/pidstat-$(hostname).csv" | sed s#//*#/#g)
 pidstat -druh -p ALL | sed '1d;/^$/d;s/#[ ]*Time/timestamp/g;s/^[ ]*//;s/[ ]\+/,/g' | head -n 1 > $OUTFILE
 
-echo $PIDS
-
 while [ true ]; do
     sleep $SLEEP_TIME
     for pid in $PIDS; do
+        echo $pid
         pidstat -druh -p $pid | sed '1d;/^[#]/d;/^$/d;s/^[ ]*//;s/[ ]\+/,/g' >> $OUTFILE;
     done
 
