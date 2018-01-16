@@ -16,6 +16,7 @@ fi
     
 # using latest monitoring path
 MONITOR_PATH=`ls -td -- $MONITOR_PATH/*/ | grep 20 | head -n 1`
+mkdir $MONITOR_PATH/netmon/
 OUTFILE=$(echo "$MONITOR_PATH/netmon/netmon-$(hostname)@$1.csv" | sed s#//*#/#g)
 
 exec python $SCRIPT_PATH/netmon.py $1 > $OUTFILE
