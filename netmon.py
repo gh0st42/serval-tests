@@ -34,7 +34,7 @@ def logger():
         time.sleep(1)
 
 def print_header():
-    print "timestamp_ms,cnt_pkt,cnt_ip,cnt_tcp,cnt_udp,cnt_serval_tcp,cnt_serval_udp,size_pkt,size_ip,size_tcp,size_udp,size_serval_tcp,size_serval_udp"
+    print "timestamp_ms,cnt_pkt,cnt_ip,cnt_tcp,cnt_udp,cnt_iperf_tcp,cnt_iperf_udp,cnt_wget_tcp,cnt_wget_udp,size_pkt,size_ip,size_tcp,size_udp,size_iperf_tcp,size_iperf_udp,size_wget_tcp,size_wget_udp"
 
 def print_total_stats_human():
     print "\n" , "="*40
@@ -43,27 +43,31 @@ def print_total_stats_human():
     print "#IP: ", total_cnt['ip']
     print "#tcp: ", total_cnt['tcp']
     print "#udp: ", total_cnt['udp']
-    print "#serval_tcp: ", total_cnt['serval_tcp']
-    print "#serval_udp: ", total_cnt['serval_udp']
+    print "#iperf_tcp: ", total_cnt['iperf_tcp']
+    print "#iperf_udp: ", total_cnt['iperf_udp']
+    print "#wget_tcp: ", total_cnt['wget_tcp']
+    print "#wget_udp: ", total_cnt['wget_udp']
     print "\nPacket size counts total:"
     print "Pkts: ", total_size['pkt']
     print "IP: ", total_size['ip']
     print "tcp: ", total_size['tcp']
     print "udp: ", total_size['udp']
-    print "serval_tcp: ", total_size['serval_tcp']
-    print "serval_udp: ", total_size['serval_udp']
+    print "iperf_tcp: ", total_size['iperf_tcp']
+    print "iperf_udp: ", total_size['iperf_udp']
+    print "wget_tcp: ", total_size['wget_tcp']
+    print "wget_udp: ", total_size['wget_udp']
 
 def print_total_stats():
     csv_line = "TOTAL,"
-    csv_line += "%d,%d,%d,%d,%d,%d" % (total_cnt['pkt'],total_cnt['ip'],total_cnt['tcp'],total_cnt['udp'],total_cnt['serval_tcp'],total_cnt['serval_udp'])
-    csv_line += ",%d,%d,%d,%d,%d,%d" % (total_size['pkt'],total_size['ip'],total_size['tcp'],total_size['udp'],total_size['serval_tcp'],total_size['serval_udp'])
+    csv_line += "%d,%d,%d,%d,%d,%d,%d,%d" % (total_cnt['pkt'],total_cnt['ip'],total_cnt['tcp'],total_cnt['udp'],total_cnt['iperf_tcp'],total_cnt['iperf_udp'],total_cnt['wget_tcp'],total_cnt['wget_udp'])
+    csv_line += ",%d,%d,%d,%d,%d,%d,%d,%d" % (total_size['pkt'],total_size['ip'],total_size['tcp'],total_size['udp'],total_size['iperf_tcp'],total_size['iperf_udp'],total_size['wget_tcp'],total_size['wget_udp'])
     print csv_line
 
 def print_cur_stats():
     cur_time = int(time.time() * 1000)
     csv_line = str(cur_time) + ','
-    csv_line += "%d,%d,%d,%d,%d,%d" % (cur_cnt['pkt'],cur_cnt['ip'],cur_cnt['tcp'],cur_cnt['udp'],cur_cnt['serval_tcp'],cur_cnt['serval_udp'])
-    csv_line += ",%d,%d,%d,%d,%d,%d" % (cur_size['pkt'],cur_size['ip'],cur_size['tcp'],cur_size['udp'],cur_size['serval_tcp'],cur_size['serval_udp'])
+    csv_line += "%d,%d,%d,%d,%d,%d,%d,%d" % (cur_cnt['pkt'],cur_cnt['ip'],cur_cnt['tcp'],cur_cnt['udp'],cur_cnt['iperf_tcp'],cur_cnt['iperf_udp'],cur_cnt['wget_tcp'],cur_cnt['wget_udp'])
+    csv_line += ",%d,%d,%d,%d,%d,%d,%d,%d" % (cur_size['pkt'],cur_size['ip'],cur_size['tcp'],cur_size['udp'],cur_size['iperf_tcp'],cur_size['iperf_udp'],cur_size['wget_tcp'],cur_size['wget_udp'])
     print csv_line
 
     for i in cur_cnt.keys():
@@ -81,11 +85,11 @@ if len(sys.argv) != 2:
 
 pc = pcap.pcap(name=sys.argv[1])
 
-total_cnt = {'pkt':0, 'ip':0, 'tcp':0, 'udp':0, 'serval_tcp':0, 'serval_udp':0}
-total_size = {'pkt':0, 'ip':0, 'tcp':0, 'udp':0,'serval_tcp':0, 'serval_udp':0}
+total_cnt = {'pkt':0, 'ip':0, 'tcp':0, 'udp':0, 'iperf_tcp':0, 'iperf_udp':0, 'wget_tcp':0, 'wget_udp':0}
+total_size = {'pkt':0, 'ip':0, 'tcp':0, 'udp':0,'iperf_tcp':0, 'iperf_udp':0, 'wget_tcp':0, 'wget_udp':0}
 
-cur_cnt = {'pkt':0, 'ip':0, 'tcp':0, 'udp':0, 'serval_tcp':0, 'serval_udp':0}
-cur_size = {'pkt':0, 'ip':0, 'tcp':0, 'udp':0, 'serval_tcp':0, 'serval_udp':0}
+cur_cnt = {'pkt':0, 'ip':0, 'tcp':0, 'udp':0, 'iperf_tcp':0, 'iperf_udp':0, 'wget_tcp':0, 'wget_udp':0}
+cur_size = {'pkt':0, 'ip':0, 'tcp':0, 'udp':0, 'iperf_tcp':0, 'iperf_udp':0, 'wget_tcp':0, 'wget_udp':0}
 
 
 # signal.signal(signal.SIGINT, signal_handler)
@@ -128,11 +132,17 @@ while True:
                total_cnt['tcp'] += 1
                cur_size['tcp'] += packet_size
                total_size['tcp'] += packet_size
-               if TCP.dport == 4110 or TCP.sport == 4110:
-                   cur_cnt['serval_tcp'] += 1
-                   total_cnt['serval_tcp'] += 1
-                   cur_size['serval_tcp'] += packet_size
-                   total_size['serval_tcp'] += packet_size
+               if TCP.dport == 5001 or TCP.sport == 5001:
+                   cur_cnt['iperf_tcp'] += 1
+                   total_cnt['iperf_tcp'] += 1
+                   cur_size['iperf_tcp'] += packet_size
+                   total_size['iperf_tcp'] += packet_size
+               elif TCP.dport == 8000 or TCP.sport == 8000:
+                   cur_cnt['wget_tcp'] += 1
+                   total_cnt['wget_tcp'] += 1
+                   cur_size['wget_tcp'] += packet_size
+                   total_size['wget_tcp'] += packet_size
+
 
             elif ip.p==dpkt.ip.IP_PROTO_UDP:
                UDP=ip.data
@@ -140,10 +150,15 @@ while True:
                total_cnt['udp'] += 1
                cur_size['udp'] += packet_size
                total_size['udp'] += packet_size
-               if UDP.dport == 4110 or UDP.sport == 4110:
-                   cur_cnt['serval_udp'] += 1
-                   total_cnt['serval_udp'] += 1
-                   cur_size['serval_udp'] += packet_size
-                   total_size['serval_udp'] += packet_size
+               if UDP.dport == 5001 or UDP.sport == 5001:
+                   cur_cnt['iperf_udp'] += 1
+                   total_cnt['iperf_udp'] += 1
+                   cur_size['iperf_udp'] += packet_size
+                   total_size['iperf_udp'] += packet_size
+               elif UDP.dport == 8000 or UDP.sport == 8000:
+                   cur_cnt['wget_udp'] += 1
+                   total_cnt['wget_udp'] += 1
+                   cur_size['wget_udp'] += packet_size
+                   total_size['wget_udp'] += packet_size
     except Exception as e:
         print "Netmon Error: ", e
