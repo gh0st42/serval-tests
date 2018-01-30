@@ -132,7 +132,7 @@ while True:
                total_cnt['tcp'] += 1
                cur_size['tcp'] += packet_size
                total_size['tcp'] += packet_size
-               if TCP.dport == 5001 or TCP.sport == 5001:
+               if TCP.dport > 42420 and TCP.dport < 42600 or TCP.sport > 42420 and TCP.sport < 42600:
                    cur_cnt['iperf_tcp'] += 1
                    total_cnt['iperf_tcp'] += 1
                    cur_size['iperf_tcp'] += packet_size
@@ -150,7 +150,7 @@ while True:
                total_cnt['udp'] += 1
                cur_size['udp'] += packet_size
                total_size['udp'] += packet_size
-               if UDP.dport == 5001 or UDP.sport == 5001:
+               if UDP.dport > 42420 and UDP.dport < 42600 or UDP.sport > 42420 and UDP.sport < 42600:
                    cur_cnt['iperf_udp'] += 1
                    total_cnt['iperf_udp'] += 1
                    cur_size['iperf_udp'] += packet_size
