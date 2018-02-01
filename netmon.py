@@ -144,7 +144,7 @@ while True:
                    total_size['wget_tcp'] += packet_size
 
 
-            elif ip.p==dpkt.ip.IP_PROTO_UDP-:
+            elif ip.p==dpkt.ip.IP_PROTO_UDP:
                UDP=ip.data
                cur_cnt['udp'] += 1
                total_cnt['udp'] += 1
