@@ -1,4 +1,4 @@
-#!/usr/bin/python
+ #!/usr/bin/python
 
 # Simple network monitor - 1s interval csv stats dumper
 # Copyright (c) 2016 Lars Baumgaertner
@@ -150,7 +150,7 @@ while True:
                total_cnt['udp'] += 1
                cur_size['udp'] += packet_size
                total_size['udp'] += packet_size
-               if (UDP.dport > 42420 and UDP.dport < 42600) or (UDP.sport > 42420 and UDP.sport < 42600):
+               if (UDP.dport > 42420 and UDP.dport < 44430) or (UDP.sport > 42420 and UDP.sport < 44430):
                    cur_cnt['iperf_udp'] += 1
                    total_cnt['iperf_udp'] += 1
                    cur_size['iperf_udp'] += packet_size
